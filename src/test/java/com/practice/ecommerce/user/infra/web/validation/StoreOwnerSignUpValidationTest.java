@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
-import com.practice.ecommerce.user.application.service.UserService;
+import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.docs.StoreOwnerSignUpDocs;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -33,7 +33,7 @@ public class StoreOwnerSignUpValidationTest {
 	ObjectMapper objectMapper = new ObjectMapper();
 
 	@MockBean
-	private UserService userService;
+	private UserUsecase userUsecase;
 
 
 	@AfterEach

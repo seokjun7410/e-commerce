@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
-import com.practice.ecommerce.user.application.service.UserService;
+import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.docs.StoreOwnerSignInDocs;
 import com.practice.ecommerce.user.docs.UserLoginDocs;
 import com.practice.ecommerce.user.infra.web.dto.UserLoginRequest;
@@ -34,7 +34,7 @@ public class StoreOwnerSigInValidationTest {
 	ObjectMapper objectMapper = new ObjectMapper();
 
 	@MockBean
-	private UserService userService;
+	private UserUsecase userUsecase;
 
 	private StoreOwnerSignInDocs docs = new StoreOwnerSignInDocs(null);
 

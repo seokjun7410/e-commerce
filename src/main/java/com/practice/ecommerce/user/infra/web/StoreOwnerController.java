@@ -3,7 +3,7 @@ package com.practice.ecommerce.user.infra.web;
 import com.practice.ecommerce.excpetion.InvalidLoginInfo;
 import com.practice.ecommerce.user.aop.CustomErrorResponse;
 import com.practice.ecommerce.user.aop.LoginCheck;
-import com.practice.ecommerce.user.application.service.UserService;
+import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDeleteRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDto;
@@ -35,7 +35,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Slf4j
 public class StoreOwnerController {
 
-	private final UserService userService;
+	private final UserUsecase userUsecase;
 
 	@PostMapping("/sign-up")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -43,7 +43,7 @@ public class StoreOwnerController {
 		@RequestBody @Valid StoreOwnerRegisterRequest request) {
 
 
-		userService.storeOwnerRegister(request);
+		userUsecase.storeOwnerRegister(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("status","2000"));
 	}
 
@@ -54,7 +54,7 @@ public class StoreOwnerController {
 
 
 		try {
-			userService.login(request.loginId(), request.password());
+			userUsecase.login(request.loginId(), request.password());
 			SessionUtil.setLoginStoreOwnerId(session, request.loginId());
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (InvalidLoginInfo e) {
@@ -69,7 +69,7 @@ public class StoreOwnerController {
 		if (loginId == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		UserDto userInfo = userService.getUserInfo(loginId);
+		UserDto userInfo = userUsecase.getUserInfo(loginId);
 		return ResponseEntity.ok(userInfo);
 	}
 
@@ -93,7 +93,7 @@ public class StoreOwnerController {
 		}
 
 		try {
-			userService.updatePassword(loginId, request.password(), request.newPassword());
+			userUsecase.updatePassword(loginId, request.password(), request.newPassword());
 			return ResponseEntity.ok().build();
 		} catch (InvalidLoginInfo e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -112,7 +112,7 @@ public class StoreOwnerController {
 		}
 
 		try {
-			userService.delete(accountId, request.password());
+			userUsecase.delete(accountId, request.password());
 			return ResponseEntity.ok().build();
 		} catch (InvalidLoginInfo e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

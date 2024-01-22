@@ -3,7 +3,7 @@ package com.practice.ecommerce.user.application.service.impl;
 import com.practice.ecommerce.excpetion.DuplicateIdException;
 import com.practice.ecommerce.excpetion.InvalidLoginInfo;
 import com.practice.ecommerce.user.application.outport.UserOutport;
-import com.practice.ecommerce.user.application.service.UserService;
+import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.domain.User;
 import com.practice.ecommerce.user.domain.vo.Address;
 import com.practice.ecommerce.user.domain.vo.LoginId;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * {@link Transactional} query, command 트랜잭션 분리 <br> {@link Slf4j} Logback Log4j 퍼샤드 패턴으로 이용 <br>
- * {@link UserService} PSA 및 서비스 명세를 위한 추상화 <br> {@link UserOutport} DAO계층의 자유로운 변경을 위한 DIP 구성 <br>
+ * {@link UserUsecase} PSA 및 서비스 명세를 위한 추상화 <br> {@link UserOutport} DAO계층의 자유로운 변경을 위한 DIP 구성 <br>
  * <br>
  *
  * @Code-Description <br>
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserUsecase {
 
 	private final UserOutport userOutport;
 

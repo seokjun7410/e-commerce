@@ -4,7 +4,7 @@ import com.practice.ecommerce.excpetion.InvalidLoginInfo;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDto;
 
-public interface UserService {
+public interface UserUsecase {
 
 	int storeOwnerRegister(StoreOwnerRegisterRequest request);
 

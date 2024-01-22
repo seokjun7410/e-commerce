@@ -7,9 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
-import com.practice.ecommerce.user.application.service.UserService;
+import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.docs.StoreOwnerUpdatePasswordDocs;
-import com.practice.ecommerce.user.infra.web.StoreOwnerController;
 import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +22,6 @@ import org.springframework.mock.web.MockHttpSession;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 
 @WebMvcTest
@@ -36,7 +34,7 @@ public class StoreOwnerUpdatePasswordValidationTest {
 	ObjectMapper objectMapper = new ObjectMapper();
 
 	@MockBean
-	private UserService userService;
+	private UserUsecase userUsecase;
 
 	private StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs(null);
 
