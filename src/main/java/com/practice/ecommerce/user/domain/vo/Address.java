@@ -1,5 +1,6 @@
 package com.practice.ecommerce.user.domain.vo;
 
+import com.practice.ecommerce.user.domain.vo.AddressParser.Sigu;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,10 @@ public class Address {
 	private String doro; //도로명 주소
 	private String jibun; //지번 주소
 
-	public static Address create(String address){
-	        return new Address(null,null,address,null);
+	public static Address create(String doro, String jibun){
+		Sigu sigu = AddressParser.parse(doro);
+		return new Address(sigu.si(), sigu.gu(),doro,jibun);
 	    }
+
+
 }

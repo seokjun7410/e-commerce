@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
 		LoginId loginId = LoginId.create(request.loginId());
 		Password password = Password.create(request.password());
-		Address address = Address.create(request.address());
+		Address address = Address.create(request.address(), request.address());
 
 		try {
 			userOutport.registerStoreOwner(loginId, password, address, request.nickName());
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		throws InvalidLoginInfo {
 
 		User user = findByIdAndPasswordElseThrow(loginId, password, "UPDATE USER PASSWORD FAIL");
-		user.updatePassword(newPassword);
+		user.updatePassword(Password.create(newPassword));
 		try {
 			userOutport.save(user);
 		} catch (Exception e) {

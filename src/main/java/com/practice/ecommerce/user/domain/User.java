@@ -41,7 +41,7 @@ public class User extends BaseEntity {
 	private String name;
 	private boolean isWithDraw;
 
-	public User(LoginId loginId, Password password, Password pastPassword, Address address,
+	private User(LoginId loginId, Password password, Password pastPassword, Address address,
 		String name, boolean isWithDraw) {
 		this.loginId = loginId;
 		this.password = password;
@@ -56,9 +56,9 @@ public class User extends BaseEntity {
 		return new User(loginId, password,password, address, name,false);
 	}
 
-	public void updatePassword(String encryptPassword) {
+	public void updatePassword(Password encryptPassword) {
 		this.pastPassword = this.password;
-		this.password = Password.create(encryptPassword);
+		this.password = encryptPassword;
 	}
 
 }
