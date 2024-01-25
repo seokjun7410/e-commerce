@@ -9,6 +9,7 @@ import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.docs.StoreOwnerUpdatePasswordDocs;
+import com.practice.ecommerce.user.infra.web.StoreOwnerController;
 import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
-@WebMvcTest
+@WebMvcTest(StoreOwnerController.class)
 @AutoConfigureRestDocs
 @DisplayName("스토어 오너 - 비밀번호 변경 - 유효성 테스트")
 public class StoreOwnerUpdatePasswordValidationTest {
@@ -35,8 +36,7 @@ public class StoreOwnerUpdatePasswordValidationTest {
 
 	@MockBean
 	private UserUsecase userUsecase;
-
-	private StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs(null);
+	private StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs();
 
 	@AfterEach
 	void tearDown() {
