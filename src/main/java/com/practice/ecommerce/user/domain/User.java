@@ -1,6 +1,7 @@
 package com.practice.ecommerce.user.domain;
 
 import com.practice.ecommerce.BaseEntity;
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.domain.vo.Address;
 import com.practice.ecommerce.user.domain.vo.LoginId;
 import com.practice.ecommerce.user.domain.vo.Password;
@@ -9,6 +10,8 @@ import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,19 +44,29 @@ public class User extends BaseEntity {
 	private String name;
 	private boolean isWithDraw;
 
+	@Enumerated(EnumType.STRING)
+	private UserType userType;
+
 	private User(LoginId loginId, Password password, Password pastPassword, Address address,
-		String name, boolean isWithDraw) {
+		String name, boolean isWithDraw, UserType userType) {
 		this.loginId = loginId;
 		this.password = password;
 		this.pastPassword = pastPassword;
 		this.address = address;
 		this.name = name;
 		this.isWithDraw = isWithDraw;
+		this.userType = userType;
 	}
 
 	public static User createStoreOwner(LoginId loginId, Password password, Address address,
 		String name) {
-		return new User(loginId, password,password, address, name,false);
+		return new User(loginId, password,password, address, name,false,UserType.STORE_OWNER);
+	}
+
+	public static User createAdmin(LoginId loginId, Password password, Address address,
+		String name) {
+		return new User(loginId, password,password, address, name,false,UserType.ADMIN);
+
 	}
 
 	public void updatePassword(Password encryptPassword) {

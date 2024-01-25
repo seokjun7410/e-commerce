@@ -1,5 +1,6 @@
 package com.practice.ecommerce.user.infra.adapter;
 
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.application.outport.UserOutport;
 import com.practice.ecommerce.user.domain.User;
 import com.practice.ecommerce.user.domain.vo.Address;
@@ -20,9 +21,10 @@ public class UserAdapter implements UserOutport {
     }
 
     @Override
-    public void registerStoreOwner(LoginId loginId, Password password, Address address,String name) {
-        User storeOwner = User.createStoreOwner(loginId,password,address,name);
-        userRepository.save(storeOwner);
+    public void register(LoginId loginId, Password password, Address address,String name,
+        UserType userType) {
+        User user = User.createStoreOwner(loginId,password,address,name);
+        userRepository.save(user);
     }
 
     @Override

@@ -1,12 +1,13 @@
 package com.practice.ecommerce.user.application.service;
 
 import com.practice.ecommerce.excpetion.InvalidLoginInfo;
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDto;
 
 public interface UserUsecase {
 
-	int storeOwnerRegister(StoreOwnerRegisterRequest request);
+	int register(StoreOwnerRegisterRequest request, UserType userType);
 
 	UserDto login(String loginId, String password) throws InvalidLoginInfo;
 

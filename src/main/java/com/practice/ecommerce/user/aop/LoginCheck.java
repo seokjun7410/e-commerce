@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface LoginCheck {
 
 	public static enum UserType{
-		USER,STORE_OWNER
+		USER,STORE_OWNER,ADMIN
 	}
 
 	UserType type();

@@ -24,9 +24,10 @@ public class LoginCheckAspect {
 			.currentRequestAttributes())).getRequest().getSession();
 
 		String id = null;
-		switch (loginCheck.type().toString()) {
-			case "USER" -> id = SessionUtil.getLoginUserId(session);
-			case "STORE_OWNER" -> id = SessionUtil.getLoginStoreOwnerId(session);
+		switch (loginCheck.type()) {
+			case USER -> id = SessionUtil.getLoginUserId(session);
+			case STORE_OWNER -> id = SessionUtil.getLoginStoreOwnerId(session);
+			case ADMIN -> id = SessionUtil.getLoginAdminId(session);
 		}
 
 		if (id == null) {

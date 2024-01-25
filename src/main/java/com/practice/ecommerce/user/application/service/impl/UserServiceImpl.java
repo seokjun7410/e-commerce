@@ -2,6 +2,7 @@ package com.practice.ecommerce.user.application.service.impl;
 
 import com.practice.ecommerce.excpetion.DuplicateIdException;
 import com.practice.ecommerce.excpetion.InvalidLoginInfo;
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.application.outport.UserOutport;
 import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.domain.User;
@@ -36,7 +37,7 @@ public class UserServiceImpl implements UserUsecase {
 	private final UserOutport userOutport;
 
 	@Override
-	public int storeOwnerRegister(StoreOwnerRegisterRequest request) {
+	public int register(StoreOwnerRegisterRequest request, UserType userType) {
 		boolean duplicateResult = isDuplicatedId(request.loginId());
 		if (duplicateResult) {
 			throw new DuplicateIdException("중복된 아이디입니다.");
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserUsecase {
 		Address address = Address.create(request.address(), request.address());
 
 		try {
-			userOutport.registerStoreOwner(loginId, password, address, request.nickName());
+			userOutport.register(loginId, password, address, request.nickName(),userType);
 		} catch (Exception e) {
 			log.error("STORE OWNER REGISTER ERROR! {}", request,e.getCause());
 			throw new RuntimeException("INSERT ERROR!");
