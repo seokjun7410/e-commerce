@@ -23,4 +23,6 @@ public class Identifier {
 	 **/
 
 	public static final String CATEGORY_REGISTER_200_OK = "category-register-200";
+	public static final String CATEGORY_UPDATE_200_OK = "category-update-200";
+	public static final String CATEGORY_DELETE_200_OK = "category-delete-200";
 }

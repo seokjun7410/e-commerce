@@ -19,4 +19,22 @@ class CategoryApiTest extends ApiTest {
 		UserStep.login_API(spec,sessionFilter, UserType.ADMIN);
 		CategoryStep.register_API(spec,sessionFilter);
 	}
+
+	@Test
+	public void 카테고리를_수정_할_수_있다(){
+		SessionFilter sessionFilter = new SessionFilter();
+		UserStep.admin_signUp_API(spec);
+		UserStep.login_API(spec,sessionFilter, UserType.ADMIN);
+		CategoryStep.register_API(spec,sessionFilter);
+		CategoryStep.update_API(spec,sessionFilter);
+	}
+
+	@Test
+	public void 카테고리를_삭제_할_수_있다(){
+		SessionFilter sessionFilter = new SessionFilter();
+		UserStep.admin_signUp_API(spec);
+		UserStep.login_API(spec,sessionFilter, UserType.ADMIN);
+		CategoryStep.register_API(spec,sessionFilter);
+		CategoryStep.delete_API(spec,sessionFilter);
+	}
 }
