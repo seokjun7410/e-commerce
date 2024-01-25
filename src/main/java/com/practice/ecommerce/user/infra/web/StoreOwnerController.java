@@ -3,6 +3,7 @@ package com.practice.ecommerce.user.infra.web;
 import com.practice.ecommerce.excpetion.InvalidLoginInfo;
 import com.practice.ecommerce.user.aop.CustomErrorResponse;
 import com.practice.ecommerce.user.aop.LoginCheck;
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDeleteRequest;
@@ -12,7 +13,6 @@ import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
 import com.practice.ecommerce.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,21 +41,25 @@ public class StoreOwnerController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> signUp(
 		@RequestBody @Valid StoreOwnerRegisterRequest request) {
-
-
-		userUsecase.storeOwnerRegister(request);
-		return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("status","2000"));
+		userUsecase.register(request, UserType.STORE_OWNER);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
+
+
 
 	@PostMapping("/sign-in")
 	public ResponseEntity<?> signIn(
+		@RequestParam(name = "userType") UserType userType,
 		@RequestBody @Valid UserLoginRequest request,
 		HttpSession session) {
-
-
 		try {
 			userUsecase.login(request.loginId(), request.password());
-			SessionUtil.setLoginStoreOwnerId(session, request.loginId());
+			switch (userType) {
+				case ADMIN -> SessionUtil.setLoginAdminId(session, request.loginId());
+				case STORE_OWNER -> SessionUtil.setLoginStoreOwnerId(session, request.loginId());
+				case USER -> SessionUtil.setLoginUserId(session, request.loginId());
+			}
+
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (InvalidLoginInfo e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomErrorResponse("아이디와 비번이 일치하지 않습니다."));
