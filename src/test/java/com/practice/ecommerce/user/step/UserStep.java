@@ -1,5 +1,6 @@
 package com.practice.ecommerce.user.step;
 
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.docs.StoreOwnerDeleteDocs;
 import com.practice.ecommerce.user.docs.StoreOwnerLogoutDocs;
 import com.practice.ecommerce.user.docs.StoreOwnerMyInfoDocs;
@@ -8,23 +9,21 @@ import com.practice.ecommerce.user.docs.StoreOwnerSignUpDocs;
 import com.practice.ecommerce.user.docs.StoreOwnerUpdatePasswordDocs;
 import com.practice.ecommerce.user.docs.UserLoginDocs;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
-import com.practice.ecommerce.user.infra.web.dto.UserDeleteRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDto;
 import com.practice.ecommerce.user.infra.web.dto.UserLoginRequest;
-import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
 import io.restassured.RestAssured;
 import io.restassured.filter.session.SessionFilter;
 import io.restassured.specification.RequestSpecification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.restassured.RestDocumentationFilter;
 
-public class StoreOwnerStep {
+public class UserStep {
 
-	public static void signUp_API(RequestSpecification spec) {
+	public static void stoerOwner_signUp_API(RequestSpecification spec) {
 
 		StoreOwnerRegisterRequest request = StoreOwnerSignUpDocs.Request.create();
-		StoreOwnerSignUpDocs storeOwnerSignUpDocs = new StoreOwnerSignUpDocs(
-			StoreOwnerRegisterRequest.class);
+		StoreOwnerSignUpDocs storeOwnerSignUpDocs = new StoreOwnerSignUpDocs();
 
 		final var response = RestAssured.given(spec).log().all()
 			.filter(storeOwnerSignUpDocs.successFilter())
@@ -37,18 +36,59 @@ public class StoreOwnerStep {
 			.log().all().extract();
 	}
 
+	public static void admin_signUp_API(RequestSpecification spec) {
+
+		StoreOwnerRegisterRequest request = StoreOwnerSignUpDocs.Request.create();
+		StoreOwnerSignUpDocs storeOwnerSignUpDocs = new StoreOwnerSignUpDocs();
+
+		final var response = RestAssured.given(spec).log().all()
+			.filter(storeOwnerSignUpDocs.successFilter())
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+			.body(request)
+			.when()
+			.post("/admin/sign-up")
+			.then()
+			.statusCode(HttpStatus.CREATED.value())
+			.log().all().extract();
+	}
+
 	public static void login_API(RequestSpecification spec, SessionFilter sessionFilter) {
 		UserLoginRequest request = UserLoginDocs.Request.create();
 
-		StoreOwnerSignInDocs storeOwnerSignInDocs = new StoreOwnerSignInDocs(
-			UserLoginRequest.class);
+		StoreOwnerSignInDocs docs = new StoreOwnerSignInDocs();
+		RestDocumentationFilter docsFilter = docs.docsBuilder()
+			.addQueryParam(
+				docs.paramBuilder()
+					.param("userType", UserType.class)
+					.buildQueryParameters()
+			)
+			.build();
+
+		final var response = RestAssured.given(spec).log().all()
+			.filter(docsFilter)
+			.filter(sessionFilter)
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+			.queryParam("userType", UserType.STORE_OWNER.name())
+			.body(request)
+			.when()
+			.post("/store-owner/sign-in?userType=" + UserType.STORE_OWNER.name())
+			.then()
+			.statusCode(HttpStatus.OK.value())
+			.log().all().extract();
+	}
+
+	public static void login_API(RequestSpecification spec, SessionFilter sessionFilter,
+		UserType userType) {
+		UserLoginRequest request = UserLoginDocs.Request.create();
+
+		StoreOwnerSignInDocs storeOwnerSignInDocs = new StoreOwnerSignInDocs();
 		final var response = RestAssured.given(spec).log().all()
 			.filter(storeOwnerSignInDocs.successFilter())
 			.filter(sessionFilter)
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.body(request)
 			.when()
-			.post("/store-owner/sign-in")
+			.post("/store-owner/sign-in?userType=" + userType.name())
 			.then()
 			.statusCode(HttpStatus.OK.value())
 			.log().all().extract();
@@ -56,10 +96,10 @@ public class StoreOwnerStep {
 
 	public static UserDto MyInfo_API(RequestSpecification spec, SessionFilter sessionFilter) {
 
-		StoreOwnerMyInfoDocs storeOwnerMyInfoDocs = new StoreOwnerMyInfoDocs(null);
+		StoreOwnerMyInfoDocs storeOwnerMyInfoDocs = new StoreOwnerMyInfoDocs();
 
 		final var result = RestAssured.given(spec).log().all()
-			.filter(storeOwnerMyInfoDocs.getFilter())
+			.filter(storeOwnerMyInfoDocs.successFilter())
 			.filter(sessionFilter)
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.when()
@@ -73,7 +113,7 @@ public class StoreOwnerStep {
 
 	public static void logout_API(RequestSpecification spec, SessionFilter sessionFilter) {
 
-		StoreOwnerLogoutDocs storeOwnerLogoutDocs = new StoreOwnerLogoutDocs(null);
+		StoreOwnerLogoutDocs storeOwnerLogoutDocs = new StoreOwnerLogoutDocs();
 
 		final var resposne = RestAssured.given(spec).log().all()
 			.filter(storeOwnerLogoutDocs.successFilter())
@@ -86,10 +126,10 @@ public class StoreOwnerStep {
 			.log().all().extract();
 	}
 
-	public static void updatePassword_API(RequestSpecification spec, SessionFilter sessionFilter,String newPassword) {
+	public static void updatePassword_API(RequestSpecification spec, SessionFilter sessionFilter,
+		String newPassword) {
 
-		StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs(
-			UserPasswordUpdateRequest.class);
+		StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs();
 
 		RestAssured.given(spec).log().all()
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -106,7 +146,7 @@ public class StoreOwnerStep {
 
 	public static void delete_API(RequestSpecification spec, SessionFilter sessionFilter) {
 
-		StoreOwnerDeleteDocs docs = new StoreOwnerDeleteDocs(UserDeleteRequest.class);
+		StoreOwnerDeleteDocs docs = new StoreOwnerDeleteDocs();
 
 		RestAssured.given(spec).log().all()
 			.filter(docs.successFilter())

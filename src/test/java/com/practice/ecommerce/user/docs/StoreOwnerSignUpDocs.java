@@ -7,10 +7,6 @@ import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 
 public class StoreOwnerSignUpDocs extends Docs {
 
-	public StoreOwnerSignUpDocs(Class<?> requestClass) {
-		super(requestClass);
-	}
-
 	public static class Request {
 		public static StoreOwnerRegisterRequest create() {
 			String loginId = VirtualStoreOwner.getLoginId();
@@ -36,9 +32,14 @@ public class StoreOwnerSignUpDocs extends Docs {
 	}
 
 	@Override
-	public ResponseDescription[] getResponseDescription() {
-		return new ResponseDescription[]{
-			new ResponseDescription("status", "커스텀 상태 코드")};
+	public Class<?> getRequestClass() {
+		return StoreOwnerRegisterRequest.class;
 	}
+
+	@Override
+	public Class<?> getResponseClass() {
+		return null;
+	}
+
 
 }

@@ -6,7 +6,7 @@ import com.practice.ecommerce.ApiTest;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import com.practice.ecommerce.user.infra.adapter.UserRepository;
 import com.practice.ecommerce.user.infra.web.dto.UserDto;
-import com.practice.ecommerce.user.step.StoreOwnerStep;
+import com.practice.ecommerce.user.step.UserStep;
 import io.restassured.filter.session.SessionFilter;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,23 +27,23 @@ class StoreOwnerApiTest extends ApiTest {
 
 	@Test
 	void StoreOwner_회원가입_API() {
-		StoreOwnerStep.signUp_API(spec);
+		UserStep.stoerOwner_signUp_API(spec);
 	}
 
 	@Test
 	void StoreOwner_로그인_API() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerStep.signUp_API(spec);
-		StoreOwnerStep.login_API(spec, sessionFilter);
+		UserStep.stoerOwner_signUp_API(spec);
+		UserStep.login_API(spec, sessionFilter);
 	}
 
 	@Test
 	void StoreOwner_계정정보_조회_API() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerStep.signUp_API(spec);
-		StoreOwnerStep.login_API(spec, sessionFilter);
+		UserStep.stoerOwner_signUp_API(spec);
+		UserStep.login_API(spec, sessionFilter);
 
-		UserDto userDto = StoreOwnerStep.MyInfo_API(spec, sessionFilter);
+		UserDto userDto = UserStep.MyInfo_API(spec, sessionFilter);
 
 		assertThat(userDto.id()).isNotNull();
 		assertThat(userDto.userId()).isEqualTo(VirtualStoreOwner.getLoginId());
@@ -57,33 +57,33 @@ class StoreOwnerApiTest extends ApiTest {
 	@Test
 	void StoreOwner_로그아웃_API() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerStep.signUp_API(spec);
-		StoreOwnerStep.login_API(spec, sessionFilter);
-		StoreOwnerStep.logout_API(spec, sessionFilter);
+		UserStep.stoerOwner_signUp_API(spec);
+		UserStep.login_API(spec, sessionFilter);
+		UserStep.logout_API(spec, sessionFilter);
 	}
 
 	@Test
 	void StoreOwner_패스워드_변경_API() {
 		SessionFilter sessionFilter = new SessionFilter();
 
-		StoreOwnerStep.signUp_API(spec);
-		StoreOwnerStep.login_API(spec, sessionFilter);
+		UserStep.stoerOwner_signUp_API(spec);
+		UserStep.login_API(spec, sessionFilter);
 
-		StoreOwnerStep.updatePassword_API(spec, sessionFilter,"newPassword");
+		UserStep.updatePassword_API(spec, sessionFilter,"newPassword");
 
-		StoreOwnerStep.logout_API(spec, sessionFilter);
+		UserStep.logout_API(spec, sessionFilter);
 		VirtualStoreOwner.setPassword("newPassword");
-		StoreOwnerStep.login_API(spec, sessionFilter);
+		UserStep.login_API(spec, sessionFilter);
 	}
 
 
 	@Test
 	void StoreOwner_삭제_API() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerStep.signUp_API(spec);
-		StoreOwnerStep.login_API(spec, sessionFilter);
+		UserStep.stoerOwner_signUp_API(spec);
+		UserStep.login_API(spec, sessionFilter);
 
-		StoreOwnerStep.delete_API(spec, sessionFilter);
+		UserStep.delete_API(spec, sessionFilter);
 	}
 
 }

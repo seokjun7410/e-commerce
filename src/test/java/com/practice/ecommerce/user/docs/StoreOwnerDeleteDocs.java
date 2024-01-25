@@ -7,9 +7,6 @@ import com.practice.ecommerce.user.infra.web.dto.UserDeleteRequest;
 
 public class StoreOwnerDeleteDocs extends Docs {
 
-	public StoreOwnerDeleteDocs(Class<?> requestClass) {
-		super(requestClass);
-	}
 
 	@Override
 	public String getIdentifier() {
@@ -27,8 +24,13 @@ public class StoreOwnerDeleteDocs extends Docs {
 	}
 
 	@Override
-	protected ResponseDescription[] getResponseDescription() {
-		return new ResponseDescription[0];
+	public Class<?> getRequestClass() {
+		return UserDeleteRequest.class;
+	}
+
+	@Override
+	public Class<?> getResponseClass() {
+		return null;
 	}
 
 	public UserDeleteRequest createRequest() {

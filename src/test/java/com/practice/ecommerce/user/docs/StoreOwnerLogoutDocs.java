@@ -6,9 +6,6 @@ import com.practice.ecommerce.docsUtils.Identifier;
 public class StoreOwnerLogoutDocs extends Docs {
 
 
-	public StoreOwnerLogoutDocs(Class<?> requestClass) {
-		super(requestClass);
-	}
 
 	@Override
 	public String getIdentifier() {
@@ -26,7 +23,14 @@ public class StoreOwnerLogoutDocs extends Docs {
 	}
 
 	@Override
-	protected ResponseDescription[] getResponseDescription() {
-		return new ResponseDescription[0];
+	public Class<?> getRequestClass() {
+		return null;
 	}
+
+	@Override
+	public Class<?> getResponseClass() {
+		return null;
+	}
+
+
 }

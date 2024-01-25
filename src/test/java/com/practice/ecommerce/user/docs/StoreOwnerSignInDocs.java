@@ -3,13 +3,9 @@ package com.practice.ecommerce.user.docs;
 
 import com.practice.ecommerce.docsUtils.Docs;
 import com.practice.ecommerce.docsUtils.Identifier;
+import com.practice.ecommerce.user.infra.web.dto.UserLoginRequest;
 
 public class StoreOwnerSignInDocs extends Docs {
-
-
-	public StoreOwnerSignInDocs(Class<?> requestClass) {
-		super(requestClass);
-	}
 
 	@Override
 	public String getIdentifier() {
@@ -27,8 +23,12 @@ public class StoreOwnerSignInDocs extends Docs {
 	}
 
 	@Override
-	protected ResponseDescription[] getResponseDescription() {
-		return new ResponseDescription[0];
+	public Class<?> getRequestClass(){
+		return UserLoginRequest.class;
+	}
+	@Override
+	public Class<?> getResponseClass(){
+		return null ;
 	}
 
 

@@ -1,7 +1,7 @@
 package com.practice.ecommerce.user.domain.vo;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.practice.ecommerce.user.domain.vo.AddressParser.Sigu;
 import org.junit.jupiter.api.DisplayName;

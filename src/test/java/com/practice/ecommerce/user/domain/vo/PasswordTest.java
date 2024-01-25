@@ -1,7 +1,6 @@
 package com.practice.ecommerce.user.domain.vo;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import com.practice.ecommerce.util.SHA256Util;
 import org.junit.jupiter.api.DisplayName;
