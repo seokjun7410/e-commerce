@@ -37,6 +37,7 @@ public class CategoryController {
 
 	@PatchMapping("/{categoryId}")
 	@LoginCheck(type = UserType.ADMIN)
+	@ResponseStatus(HttpStatus.OK)
 	public void update(
 		@RequestParam(name = "loginId", required = false) String loginId,
 		@PathVariable(name = "categoryId") Long categoryId,
@@ -47,6 +48,7 @@ public class CategoryController {
 
 	@DeleteMapping("/{categoryId}")
 	@LoginCheck(type = UserType.ADMIN)
+	@ResponseStatus(HttpStatus.OK)
 	public void delete(
 		@RequestParam(name = "loginId", required = false) String loginId,
 		@PathVariable(name = "categoryId") Long categoryId) {
