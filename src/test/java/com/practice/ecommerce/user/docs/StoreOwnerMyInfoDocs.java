@@ -2,12 +2,10 @@ package com.practice.ecommerce.user.docs;
 
 import com.practice.ecommerce.docsUtils.Docs;
 import com.practice.ecommerce.docsUtils.Identifier;
+import com.practice.ecommerce.user.infra.web.dto.UserDto;
 
 public class StoreOwnerMyInfoDocs extends Docs {
 
-	public StoreOwnerMyInfoDocs(Class<?> requestClass) {
-		super(requestClass);
-	}
 
 	@Override
 	public String getIdentifier() {
@@ -25,18 +23,14 @@ public class StoreOwnerMyInfoDocs extends Docs {
 	}
 
 	@Override
-	protected ResponseDescription[] getResponseDescription() {
-		return new ResponseDescription[]{
-			new ResponseDescription("id","PK"),
-			new ResponseDescription("userId","유저 로그인 ID"),
-			new ResponseDescription("nickName","별명"),
-			new ResponseDescription("address.si","~시 (서울시)"),
-			new ResponseDescription("address.gu","~구 (강남구)"),
-			new ResponseDescription("address.doro","도로명 주소"),
-			new ResponseDescription("address.jibun","지번 주소"),
-			new ResponseDescription("isWithDraw","삭제 여부"),
-			new ResponseDescription("createdTime","생성 시간"),
-			new ResponseDescription("updatedTime","변경 시간")
-		};
+	public Class<?> getRequestClass() {
+		return null;
 	}
+
+	@Override
+	public Class<?> getResponseClass() {
+		return UserDto.class;
+	}
+
+
 }

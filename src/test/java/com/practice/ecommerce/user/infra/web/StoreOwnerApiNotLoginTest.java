@@ -7,9 +7,7 @@ import com.practice.ecommerce.user.docs.StoreOwnerDeleteDocs;
 import com.practice.ecommerce.user.docs.StoreOwnerMyInfoDocs;
 import com.practice.ecommerce.user.docs.StoreOwnerUpdatePasswordDocs;
 import com.practice.ecommerce.user.infra.adapter.UserRepository;
-import com.practice.ecommerce.user.infra.web.dto.UserDeleteRequest;
-import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
-import com.practice.ecommerce.user.step.StoreOwnerStep;
+import com.practice.ecommerce.user.step.UserStep;
 import io.restassured.RestAssured;
 import io.restassured.filter.session.SessionFilter;
 import org.junit.jupiter.api.AfterEach;
@@ -34,9 +32,9 @@ class StoreOwnerApiNotLoginTest extends ApiTest {
 	@Test
 	void StoreOwner_계정정보_조회_로그인X_UNAUTHORIZED() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerStep.signUp_API(spec);
+		UserStep.stoerOwner_signUp_API(spec);
 
-		StoreOwnerMyInfoDocs docs = new StoreOwnerMyInfoDocs(null);
+		StoreOwnerMyInfoDocs docs = new StoreOwnerMyInfoDocs();
 		RestAssured.given(spec).log().all()
 			.filter(docs.validationFilterInRestAssured(Identifier.STORE_OWNER_MY_INFO_401_UNAUTHORIZED))
 			.filter(sessionFilter)
@@ -51,10 +49,9 @@ class StoreOwnerApiNotLoginTest extends ApiTest {
 	@Test
 	void StoreOwner_패스워드_변경_로그인X_UNAUTHORIZED() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs(
-			UserPasswordUpdateRequest.class);
+		StoreOwnerUpdatePasswordDocs docs = new StoreOwnerUpdatePasswordDocs();
 
-		StoreOwnerStep.signUp_API(spec);
+		UserStep.stoerOwner_signUp_API(spec);
 
 		RestAssured.given(spec).log().all()
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -62,7 +59,6 @@ class StoreOwnerApiNotLoginTest extends ApiTest {
 			.filter(sessionFilter)
 			.body(StoreOwnerUpdatePasswordDocs.requestCreate("newPassword"))
 			.when()
-
 			.patch("/store-owner/password")
 			.then()
 			.statusCode(HttpStatus.UNAUTHORIZED.value())
@@ -72,9 +68,9 @@ class StoreOwnerApiNotLoginTest extends ApiTest {
 	@Test
 	void StoreOwner_삭제_로그인X_UNAUTHORIZED() {
 		SessionFilter sessionFilter = new SessionFilter();
-		StoreOwnerStep.signUp_API(spec);
+		UserStep.stoerOwner_signUp_API(spec);
 
-		StoreOwnerDeleteDocs docs = new StoreOwnerDeleteDocs(UserDeleteRequest.class);
+		StoreOwnerDeleteDocs docs = new StoreOwnerDeleteDocs();
 
 		RestAssured.given(spec).log().all()
 			.filter(docs.validationFilterInRestAssured(Identifier.STORE_OWNER_DELETE_401_UNAUTHORIZED))

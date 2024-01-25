@@ -8,9 +8,6 @@ import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
 public class StoreOwnerUpdatePasswordDocs extends Docs {
 
 
-	public StoreOwnerUpdatePasswordDocs(Class<?> requestClass) {
-		super(requestClass);
-	}
 
 	@Override
 	public String getIdentifier() {
@@ -28,9 +25,15 @@ public class StoreOwnerUpdatePasswordDocs extends Docs {
 	}
 
 	@Override
-	protected ResponseDescription[] getResponseDescription() {
-		return new ResponseDescription[0];
+	public Class<?> getRequestClass() {
+		return UserPasswordUpdateRequest.class;
 	}
+
+	@Override
+	public Class<?> getResponseClass() {
+		return null;
+	}
+
 
 	public static UserPasswordUpdateRequest requestCreate(String newPassword) {
 		String password = VirtualStoreOwner.getPassword();

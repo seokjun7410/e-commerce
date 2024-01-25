@@ -2,6 +2,9 @@ package com.practice.ecommerce.docsUtils;
 
 public class Identifier {
 
+	/**
+	 * STORE_OWNER
+	 **/
 	public static final String STORE_OWNER_SIGN_UP_201_OK = "store-owner register-201";
 	public static final String STORE_OWNER_SIGN_UP_400_BAD = "store-owner register-400";
 	public static final String STORE_OWNER_SIGN_IN_200_OK = "store-owner sign-in-200";
@@ -14,4 +17,10 @@ public class Identifier {
 	public static final String STORE_OWNER_UPDATE_PASSWORD_401_UNAUTHORIZED = "store-owner update-password-401";
 	public static final String STORE_OWNER_DELETE_200_OK = "store-owner delete-200";
 	public static final String STORE_OWNER_DELETE_401_UNAUTHORIZED = "store-owner delete-401";
+
+	/**
+	 * CATEGORY
+	 **/
+
+	public static final String CATEGORY_REGISTER_200_OK = "category-register-200";
 }
