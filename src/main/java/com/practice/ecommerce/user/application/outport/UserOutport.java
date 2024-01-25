@@ -1,5 +1,6 @@
 package com.practice.ecommerce.user.application.outport;
 
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.domain.User;
 import com.practice.ecommerce.user.domain.vo.Address;
 import com.practice.ecommerce.user.domain.vo.LoginId;
@@ -10,7 +11,8 @@ public interface UserOutport {
 
 	Optional<User> getUser(LoginId id);
 
-	void registerStoreOwner(LoginId idName, Password password, Address address, String name);
+	void register(LoginId idName, Password password, Address address, String name,
+		UserType userType);
 
 	void deleteUser(LoginId loginId);
 

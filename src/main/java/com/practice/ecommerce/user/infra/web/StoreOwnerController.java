@@ -3,7 +3,8 @@ package com.practice.ecommerce.user.infra.web;
 import com.practice.ecommerce.excpetion.InvalidLoginInfo;
 import com.practice.ecommerce.user.aop.CustomErrorResponse;
 import com.practice.ecommerce.user.aop.LoginCheck;
-import com.practice.ecommerce.user.application.service.UserService;
+import com.practice.ecommerce.user.aop.LoginCheck.UserType;
+import com.practice.ecommerce.user.application.service.UserUsecase;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDeleteRequest;
 import com.practice.ecommerce.user.infra.web.dto.UserDto;
@@ -12,7 +13,6 @@ import com.practice.ecommerce.user.infra.web.dto.UserPasswordUpdateRequest;
 import com.practice.ecommerce.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,27 +35,31 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Slf4j
 public class StoreOwnerController {
 
-	private final UserService userService;
+	private final UserUsecase userUsecase;
 
 	@PostMapping("/sign-up")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<?> signUp(
 		@RequestBody @Valid StoreOwnerRegisterRequest request) {
-
-
-		userService.storeOwnerRegister(request);
-		return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("status","2000"));
+		userUsecase.register(request, UserType.STORE_OWNER);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
+
+
 
 	@PostMapping("/sign-in")
 	public ResponseEntity<?> signIn(
+		@RequestParam(name = "userType") UserType userType,
 		@RequestBody @Valid UserLoginRequest request,
 		HttpSession session) {
-
-
 		try {
-			userService.login(request.loginId(), request.password());
-			SessionUtil.setLoginStoreOwnerId(session, request.loginId());
+			userUsecase.login(request.loginId(), request.password());
+			switch (userType) {
+				case ADMIN -> SessionUtil.setLoginAdminId(session, request.loginId());
+				case STORE_OWNER -> SessionUtil.setLoginStoreOwnerId(session, request.loginId());
+				case USER -> SessionUtil.setLoginUserId(session, request.loginId());
+			}
+
 			return ResponseEntity.status(HttpStatus.OK).build();
 		} catch (InvalidLoginInfo e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomErrorResponse("아이디와 비번이 일치하지 않습니다."));
@@ -69,7 +73,7 @@ public class StoreOwnerController {
 		if (loginId == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		UserDto userInfo = userService.getUserInfo(loginId);
+		UserDto userInfo = userUsecase.getUserInfo(loginId);
 		return ResponseEntity.ok(userInfo);
 	}
 
@@ -93,7 +97,7 @@ public class StoreOwnerController {
 		}
 
 		try {
-			userService.updatePassword(loginId, request.password(), request.newPassword());
+			userUsecase.updatePassword(loginId, request.password(), request.newPassword());
 			return ResponseEntity.ok().build();
 		} catch (InvalidLoginInfo e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -112,7 +116,7 @@ public class StoreOwnerController {
 		}
 
 		try {
-			userService.delete(accountId, request.password());
+			userUsecase.delete(accountId, request.password());
 			return ResponseEntity.ok().build();
 		} catch (InvalidLoginInfo e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
