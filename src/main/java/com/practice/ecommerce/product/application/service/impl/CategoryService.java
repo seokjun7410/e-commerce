@@ -33,6 +33,7 @@ public class CategoryService implements CategoryUseCase {
 			categoryOutput.update(categoryId, request);
 		} catch (Exception e) {
 			log.error("카테고리 수정 에러 {} ERROR : {}", request, e.getMessage());
+			throw new RuntimeException("카테고리 업데이트 에러");
 		}
 	}
 
@@ -42,6 +43,7 @@ public class CategoryService implements CategoryUseCase {
 			categoryOutput.deleteByCategoryId(categoryId);
 		} catch (Exception e) {
 			log.error("카테고리 삭제 에러 categoryId:{} ERROR : {}", categoryId, e.getMessage());
+			throw new RuntimeException("카테고리 삭제 에러");
 		}
 	}
 }
