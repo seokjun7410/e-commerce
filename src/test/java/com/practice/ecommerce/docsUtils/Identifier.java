@@ -25,4 +25,14 @@ public class Identifier {
 	public static final String CATEGORY_REGISTER_200_OK = "category-register-200";
 	public static final String CATEGORY_UPDATE_200_OK = "category-update-200";
 	public static final String CATEGORY_DELETE_200_OK = "category-delete-200";
+
+	/**
+	 * PRODUCT
+	 **/
+
+	public static final String PRODUCT_REGISTER_200_OK = "product-register-200";
+	public static final String PRODUCT_REGISTER_400_BAD = "product-register-400";
+	public static final String PRODUCT_GET_200_OK = "product-get-200";
+
+
 }
