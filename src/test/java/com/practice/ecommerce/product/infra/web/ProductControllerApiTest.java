@@ -2,6 +2,8 @@ package com.practice.ecommerce.product.infra.web;
 
 import com.practice.ecommerce.ApiTest;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
+import com.practice.ecommerce.product.assertcluster.AssertCluster;
+import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
 import com.practice.ecommerce.product.infra.web.step.CategoryStep;
 import com.practice.ecommerce.product.infra.web.step.ProductStep;
 import com.practice.ecommerce.user.aop.LoginCheck.UserType;
@@ -28,6 +30,28 @@ public class ProductControllerApiTest extends ApiTest {
 
 		//when
 		ProductStep.product_register_API(spec,storeOwnerSession);
+	}
+
+	@Test
+	public void 상품_조회_API() {
+		SessionFilter storeOwnerSession = new SessionFilter();
+		SessionFilter adminSession = new SessionFilter();
+		UserStep.stoerOwner_signUp_API(spec);
+		UserStep.login_API(spec,storeOwnerSession, UserType.STORE_OWNER);
+		VirtualStoreOwner.setLoginId("admin");
+		UserStep.admin_signUp_API(spec);
+		UserStep.login_API(spec,adminSession,UserType.ADMIN);
+
+		//given
+		CategoryStep.register_API(spec,adminSession);
+		ProductStep.product_register_API(spec,storeOwnerSession);
+
+		//when
+		ProductDetailResponse response = ProductStep.product_get_API(spec);
+
+		//then
+		AssertCluster.productDetailResponse(response);
+
 	}
 
 }

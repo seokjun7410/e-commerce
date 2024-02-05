@@ -11,7 +11,7 @@ import com.practice.ecommerce.docsUtils.VirtualProduct;
 import com.practice.ecommerce.product.application.service.ProductUsecase;
 import com.practice.ecommerce.product.docs.ProductRegisterDocs;
 import com.practice.ecommerce.product.infra.web.ProductController;
-import com.practice.ecommerce.product.infra.web.ProductRegisterRequest;
+import com.practice.ecommerce.product.infra.web.dto.ProductRegisterRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,6 @@ public class ProductControllerTest {
 		ProductRegisterRequest request = docs.createRequest();
 		callApi(request)
 			.andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
-		;
 
 	}
 

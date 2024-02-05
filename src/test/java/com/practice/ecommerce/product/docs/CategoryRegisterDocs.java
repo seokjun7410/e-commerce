@@ -2,6 +2,7 @@ package com.practice.ecommerce.product.docs;
 
 import com.practice.ecommerce.docsUtils.Docs;
 import com.practice.ecommerce.docsUtils.Identifier;
+import com.practice.ecommerce.docsUtils.VirtualCategory;
 import com.practice.ecommerce.product.infra.web.dto.CategoryRequest;
 
 public class CategoryRegisterDocs extends Docs {
@@ -32,6 +33,6 @@ public class CategoryRegisterDocs extends Docs {
 	}
 
 	public CategoryRequest createRequest() {
-		return new CategoryRequest("바지");
+		return new CategoryRequest(VirtualCategory.getName());
 	}
 }
