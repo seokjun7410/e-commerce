@@ -3,7 +3,7 @@ package com.practice.ecommerce.product.docs;
 import com.practice.ecommerce.docsUtils.Docs;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
-import com.practice.ecommerce.product.infra.web.ProductRegisterRequest;
+import com.practice.ecommerce.product.infra.web.dto.ProductRegisterRequest;
 
 public class ProductRegisterDocs extends Docs {
 

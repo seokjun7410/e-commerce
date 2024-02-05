@@ -5,7 +5,8 @@ import com.practice.ecommerce.product.application.service.output.CategoryOutput;
 import com.practice.ecommerce.product.application.service.output.ProductOutput;
 import com.practice.ecommerce.product.domain.Category;
 import com.practice.ecommerce.product.domain.Product;
-import com.practice.ecommerce.product.infra.web.ProductRegisterRequest;
+import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
+import com.practice.ecommerce.product.infra.web.dto.ProductRegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,5 +33,10 @@ public class ProductService implements ProductUsecase {
 		);
 
 		productOutput.save(product);
+	}
+
+	@Override
+	public ProductDetailResponse getProductDetail(Long id) {
+		return productOutput.getById(id);
 	}
 }
