@@ -33,4 +33,13 @@ public class CategoryAdapter implements CategoryOutput {
 	public void deleteByCategoryId(Long categoryId) {
 		categoryRepository.deleteById(categoryId);
 	}
+
+	@Override
+	public Category getById(Long categoryId) {
+		return categoryRepository.findById(categoryId)
+			.orElseThrow(()->{
+				log.error("JPA ERROR, 조회 실패. 존재하지 않는 카테고리 id 입니다. ID : {}",categoryId);
+				return new RuntimeException("존재하지 않는 카테고리 Id 입니다.");
+			});
+	}
 }
