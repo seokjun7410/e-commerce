@@ -17,6 +17,7 @@ public class CategoryService implements CategoryUseCase {
 
 	private final CategoryOutput categoryOutput;
 
+	@Transactional
 	@Override
 	public void register(CategoryRequest request) {
 		try {

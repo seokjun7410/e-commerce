@@ -1,5 +1,7 @@
 package com.practice.ecommerce.product.domain;
 
+import com.practice.ecommerce.BaseEntity;
+import com.practice.ecommerce.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Product {
+public class Product extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +36,13 @@ public class Product {
 	@JoinColumn(name = "category_id")
 	private Category category;
 
-	public Product(String name, String explanation, int price, int stock, Category category) {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "store_owner_id")
+	private User storeOwner;
+
+
+	public Product(User storeOwner,String name, String explanation, int price, int stock, Category category) {
+		this.storeOwner = storeOwner;
 		this.name = name;
 		this.explanation = explanation;
 		this.price = price;
@@ -42,10 +50,11 @@ public class Product {
 		this.category = category;
 	}
 
-	public static Product create(String name, String explanation, int price, int stock,
+	public static Product create(User storeOwner,String name, String explanation, int price, int stock,
 		Category category) {
 
 		return new Product(
+			storeOwner,
 			name,
 			explanation,
 			price,
