@@ -1,0 +1,44 @@
+services:
+
+  redis:
+    image: redis
+    container_name: rediscache
+    ports:
+      - 6380:6379
+    networks:
+      - spring-net
+
+  spring-testcontainers-app:
+    image: spring-testcontainers-app
+    container_name: spring-testcontainers-app
+    build: .
+    restart: always
+    environment:
+      REDIS_HOST: rediscache
+      REDOS_PORT: 6379
+    ports:
+      - 8080:8080
+    depends_on:
+      - redis
+      - mysql
+    networks:
+      - spring-net
+
+  mysql:
+    user: 501:20
+    image: mysql:8.0.33
+    ports:
+      - 3306:3306
+    volumes:
+      - /Users/hong/dev/mysql_docker/data:/var/lib/mysql:rw
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+    environment:
+      MYSQL_ROOT_PASSWORD: hoding
+      MYSQL_DATABASE: ecommerce
+    networks:
+      - spring-net
+
+networks:
+  spring-net:

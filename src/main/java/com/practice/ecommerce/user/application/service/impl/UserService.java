@@ -32,10 +32,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class UserServiceImpl implements UserUsecase {
+public class UserService implements UserUsecase {
 
 	private final UserOutport userOutport;
 
+	@Transactional
 	@Override
 	public int register(StoreOwnerRegisterRequest request, UserType userType) {
 		boolean duplicateResult = isDuplicatedId(request.loginId());
@@ -83,6 +84,7 @@ public class UserServiceImpl implements UserUsecase {
 		}
 	}
 
+	@Transactional
 	@Override
 	public void delete(String loginId, String password) throws InvalidLoginInfo {
 		User user = findByIdAndPasswordElseThrow(loginId, password, "USER DELETE FAIL");
