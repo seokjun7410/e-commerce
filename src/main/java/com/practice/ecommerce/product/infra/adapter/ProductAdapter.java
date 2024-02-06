@@ -3,6 +3,9 @@ package com.practice.ecommerce.product.infra.adapter;
 import com.practice.ecommerce.product.application.service.output.ProductOutput;
 import com.practice.ecommerce.product.domain.Product;
 import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
+import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
+import com.practice.ecommerce.product.infra.web.dto.ProductSearchRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Repository;
 public class ProductAdapter implements ProductOutput {
 
 	private final ProductRepository productRepository;
+	private final ProductQueryRepository productQueryRepository;
 
 	@Override
 	public void save(Product product) {
@@ -27,5 +31,10 @@ public class ProductAdapter implements ProductOutput {
 				return new RuntimeException("product 조회 에러 productID");
 			});
 		return ProductDetailResponse.from(product);
+	}
+
+	@Override
+	public List<ProductResponse> getProducts(ProductSearchRequest request) {
+		return productQueryRepository.getProducts(request);
 	}
 }
