@@ -2,10 +2,13 @@ package com.practice.ecommerce.product.infra.web.step;
 
 import com.practice.ecommerce.product.docs.ProductGetDocs;
 import com.practice.ecommerce.product.docs.ProductRegisterDocs;
+import com.practice.ecommerce.product.docs.ProductSearchDocs;
 import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
+import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import io.restassured.RestAssured;
 import io.restassured.filter.session.SessionFilter;
 import io.restassured.specification.RequestSpecification;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.restassured.RestDocumentationFilter;
@@ -45,5 +48,19 @@ public class ProductStep {
 			.log().all().extract();
 
 		return result.response().jsonPath().getObject("", ProductDetailResponse.class);
+	}
+
+	public static List<ProductResponse> product_search_API(RequestSpecification spec) {
+		ProductSearchDocs docs = new ProductSearchDocs();
+		final var result = RestAssured.given(spec).log().all()
+			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+			.body(docs.createRequest())
+			.when()
+			.post("/product/search")
+			.then()
+			.statusCode(HttpStatus.OK.value())
+			.log().all().extract();
+
+		return result.response().jsonPath().getList("", ProductResponse.class);
 	}
 }
