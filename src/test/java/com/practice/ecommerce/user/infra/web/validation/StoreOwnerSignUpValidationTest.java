@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.ecommerce.MockingCluster;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import com.practice.ecommerce.user.aop.LoginCheck.UserType;
@@ -18,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,15 +28,11 @@ import org.springframework.test.web.servlet.ResultActions;
 @WebMvcTest(StoreOwnerController.class)
 @AutoConfigureRestDocs
 @DisplayName("스토어 오너 - 회원가입API - 유효성 테스트")
-public class StoreOwnerSignUpValidationTest {
+public class StoreOwnerSignUpValidationTest extends MockingCluster {
 
 	@Autowired
 	MockMvc mockMvc;
 	ObjectMapper objectMapper = new ObjectMapper();
-
-	@MockBean
-	private UserUsecase userUsecase;
-
 
 	@AfterEach
 	void tearDown() {

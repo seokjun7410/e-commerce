@@ -3,28 +3,36 @@ package com.practice.ecommerce;
 import com.practice.ecommerce.docsUtils.VirtualCategory;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
-import com.practice.ecommerce.product.infra.adapter.CategoryRepository;
-import com.practice.ecommerce.product.infra.adapter.ProductRepository;
-import com.practice.ecommerce.user.infra.adapter.UserRepository;
-import org.junit.jupiter.api.AfterEach;
+import jakarta.persistence.EntityManager;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class CleanUp {
 
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private CategoryRepository categoryRepository;
-	@Autowired
-	private ProductRepository productRepository;
+	private EntityManager entityManager;
+	private List<String> tableNames= List.of(
+		"product",
+		"category",
+		"member"
+	);
 
-	@AfterEach
+
+	@Transactional
 	public void tearDown() {
-		productRepository.deleteAll();
-		categoryRepository.deleteAll();
-		userRepository.deleteAll();
+		entityManager.flush();
+		entityManager.clear();
+
+		entityManager.createNativeQuery("SET foreign_key_checks = 0").executeUpdate();
+
+		for (String tableName : tableNames) {
+			entityManager.createNativeQuery("TRUNCATE TABLE " + tableName).executeUpdate();
+		}
+
+		entityManager.createNativeQuery("SET foreign_key_checks = 1").executeUpdate();
 		VirtualStoreOwner.clear();
 		VirtualProduct.clear();
 		VirtualCategory.clear();
