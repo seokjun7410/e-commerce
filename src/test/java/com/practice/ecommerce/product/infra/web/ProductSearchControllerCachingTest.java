@@ -13,9 +13,9 @@ import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
 
 
@@ -24,10 +24,10 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 @SpringBootTest
 public class ProductSearchControllerCachingTest extends AbstractContainerBaseTest {
 
-	@SpyBean
-	private ProductSearchService productSearchService;
 	@MockBean
 	private ProductQueryRepository productQueryRepository;
+	@Autowired
+	private ProductSearchService productSearchService;
 	private final ProductSearchDocs docs = new ProductSearchDocs();
 
 	@Test

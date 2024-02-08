@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.ecommerce.MockingCluster;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
-import com.practice.ecommerce.product.application.service.ProductUsecase;
 import com.practice.ecommerce.product.docs.ProductRegisterDocs;
 import com.practice.ecommerce.product.infra.web.ProductController;
 import com.practice.ecommerce.product.infra.web.dto.ProductRegisterRequest;
@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,14 +24,13 @@ import org.springframework.test.web.servlet.ResultActions;
 
 @WebMvcTest(ProductController.class)
 @AutoConfigureRestDocs
-public class ProductControllerTest {
+public class ProductControllerTest extends MockingCluster {
 
 	@Autowired
 	MockMvc mockMvc;
 	ObjectMapper objectMapper = new ObjectMapper();
 
-	@MockBean
-	private ProductUsecase productUsecase;
+
 
 	private ProductRegisterDocs docs = new ProductRegisterDocs();
 
