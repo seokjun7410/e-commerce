@@ -35,5 +35,12 @@ public class Identifier {
 	public static final String PRODUCT_GET_200_OK = "product-get-200";
 	public static final String PRODUCT_GET_LIST_200_OK = "product-get-list-200";
 
+	/**
+	 * PRODUCT
+	 **/
+	public static final String REVIEW_REGISTER_200_OK = "review-register-200";
+	public static final String REVIEW_UPDATE_200_OK = "review-update-200";
+	public static final String REVIEW_DELETE_200_OK = "review-delete-200";
+
 
 }
