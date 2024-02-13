@@ -6,6 +6,7 @@ import com.practice.ecommerce.user.domain.User;
 import com.practice.ecommerce.user.domain.vo.Address;
 import com.practice.ecommerce.user.domain.vo.LoginId;
 import com.practice.ecommerce.user.domain.vo.Password;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,8 +17,9 @@ public class UserAdapter implements UserOutport {
 
     private final UserRepository userRepository;
     @Override
-    public Optional<User> getUser(LoginId id) {
-        return userRepository.findByLoginId(id);
+    public User getUser(LoginId id) {
+        return userRepository.findByLoginId(id)
+            .orElseThrow(()-> new EntityNotFoundException("user not found, userID : "+id));
     }
 
     @Override

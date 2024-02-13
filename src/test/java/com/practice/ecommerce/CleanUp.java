@@ -2,6 +2,7 @@ package com.practice.ecommerce;
 
 import com.practice.ecommerce.docsUtils.VirtualCategory;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
+import com.practice.ecommerce.docsUtils.VirtualReview;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import jakarta.persistence.EntityManager;
 import java.util.List;
@@ -17,7 +18,8 @@ public class CleanUp {
 	private List<String> tableNames= List.of(
 		"product",
 		"category",
-		"member"
+		"member",
+		"review"
 	);
 
 
@@ -36,5 +38,6 @@ public class CleanUp {
 		VirtualStoreOwner.clear();
 		VirtualProduct.clear();
 		VirtualCategory.clear();
+		VirtualReview.clear();
 	}
 }
