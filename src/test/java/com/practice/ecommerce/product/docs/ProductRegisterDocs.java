@@ -32,6 +32,11 @@ public class ProductRegisterDocs extends Docs {
 		return null;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 	public ProductRegisterRequest createRequest() {
 		return new ProductRegisterRequest(
 			VirtualProduct.getName(),

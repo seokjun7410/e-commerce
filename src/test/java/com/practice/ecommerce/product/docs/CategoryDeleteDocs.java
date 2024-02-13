@@ -29,4 +29,9 @@ public class CategoryDeleteDocs extends Docs {
 	public Class<?> getResponseClass() {
 		return null;
 	}
+
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
 }

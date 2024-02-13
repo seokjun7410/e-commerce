@@ -53,6 +53,7 @@ public class ProductStep {
 	public static List<ProductResponse> product_search_API(RequestSpecification spec) {
 		ProductSearchDocs docs = new ProductSearchDocs();
 		final var result = RestAssured.given(spec).log().all()
+			.filter(docs.successFilter())
 			.contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
 			.body(docs.createRequest())
 			.when()

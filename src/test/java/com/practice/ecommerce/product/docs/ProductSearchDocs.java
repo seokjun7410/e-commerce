@@ -32,6 +32,11 @@ public class ProductSearchDocs extends Docs {
 
 	@Override
 	public Class<?> getResponseClass() {
+		return null;
+	}
+
+	@Override
+	public Class<?> getListResponseClass() {
 		return ProductResponse.class;
 	}
 

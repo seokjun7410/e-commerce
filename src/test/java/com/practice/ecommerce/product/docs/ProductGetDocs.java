@@ -31,4 +31,9 @@ public class ProductGetDocs extends Docs {
 		return ProductDetailResponse.class;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 }
