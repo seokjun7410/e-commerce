@@ -32,6 +32,11 @@ public class CategoryRegisterDocs extends Docs {
 		return null;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 	public CategoryRequest createRequest() {
 		return new CategoryRequest(VirtualCategory.getName());
 	}

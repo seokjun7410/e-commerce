@@ -33,6 +33,11 @@ public class StoreOwnerDeleteDocs extends Docs {
 		return null;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 	public UserDeleteRequest createRequest() {
 		return new UserDeleteRequest(VirtualStoreOwner.getPassword());
 	}

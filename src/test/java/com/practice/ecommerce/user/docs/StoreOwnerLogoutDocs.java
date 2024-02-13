@@ -32,5 +32,10 @@ public class StoreOwnerLogoutDocs extends Docs {
 		return null;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 
 }

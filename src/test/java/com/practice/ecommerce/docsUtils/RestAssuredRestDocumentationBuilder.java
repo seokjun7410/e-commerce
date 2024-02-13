@@ -44,7 +44,10 @@ public class RestAssuredRestDocumentationBuilder extends RestDocumentationWrappe
 		responseFieldsSnippet = docsWrapper.buildResponseFieldSnippet(responseClass);
 		return this;
 	}
-
+	public RestAssuredRestDocumentationBuilder addListResponse(Class<?> listResponseClass) {
+		responseFieldsSnippet = docsWrapper.buildListResponseFieldSnippet(listResponseClass);
+		return this;
+	}
 	public RestAssuredRestDocumentationBuilder addQueryParam(QueryParametersSnippet snippet) {
 		queryParametersSnippet = snippet;
 		return this;

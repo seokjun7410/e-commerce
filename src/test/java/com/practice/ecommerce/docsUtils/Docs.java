@@ -18,6 +18,17 @@ public abstract class Docs extends BaseDocs {
 				.requestHeader(super.globalDefaultHeaderSpec())
 				.addRequest(getRequestClass())
 				.addResponse(getResponseClass());
+		} else if (getRequestClass() != null && getListResponseClass() != null) {
+			builder = new RestAssuredRestDocumentationBuilder(getIdentifier(), getDescription(),
+				getSummary())
+				.requestHeader(super.globalDefaultHeaderSpec())
+				.addRequest(getRequestClass())
+				.addListResponse(getListResponseClass());
+		} else if (getListResponseClass() != null) {
+			builder = new RestAssuredRestDocumentationBuilder(getIdentifier(), getDescription(),
+				getSummary())
+				.requestHeader(super.globalDefaultHeaderSpec())
+				.addListResponse(getListResponseClass());
 		} else if (getResponseClass() != null) {
 			builder = new RestAssuredRestDocumentationBuilder(getIdentifier(), getDescription(),
 				getSummary())
@@ -28,7 +39,7 @@ public abstract class Docs extends BaseDocs {
 				getSummary())
 				.requestHeader(super.globalDefaultHeaderSpec())
 				.addRequest(getRequestClass());
-		} else {
+		}   else {
 			builder = new RestAssuredRestDocumentationBuilder(getIdentifier(), getDescription(),
 				getSummary())
 				.requestHeader(super.globalDefaultHeaderSpec());
@@ -44,6 +55,7 @@ public abstract class Docs extends BaseDocs {
 	public abstract Class<?> getRequestClass();
 
 	public abstract Class<?> getResponseClass();
+	public abstract Class<?> getListResponseClass();
 
 
 	public RestDocumentationFilter successFilter() {

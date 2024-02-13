@@ -34,6 +34,11 @@ public class StoreOwnerUpdatePasswordDocs extends Docs {
 		return null;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 
 	public static UserPasswordUpdateRequest requestCreate(String newPassword) {
 		String password = VirtualStoreOwner.getPassword();

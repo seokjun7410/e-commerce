@@ -32,5 +32,10 @@ public class StoreOwnerMyInfoDocs extends Docs {
 		return UserDto.class;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 
 }

@@ -41,5 +41,10 @@ public class StoreOwnerSignUpDocs extends Docs {
 		return null;
 	}
 
+	@Override
+	public Class<?> getListResponseClass() {
+		return null;
+	}
+
 
 }
