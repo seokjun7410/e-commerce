@@ -5,6 +5,7 @@ import com.practice.ecommerce.product.domain.Product;
 import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductSearchRequest;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,5 +37,11 @@ public class ProductAdapter implements ProductOutput {
 	@Override
 	public List<ProductResponse> getProducts(ProductSearchRequest request) {
 		return productQueryRepository.getProducts(request);
+	}
+
+	@Override
+	public Product getProduct(Long productId) {
+		return productRepository.findById(productId)
+			.orElseThrow(()->new EntityNotFoundException("존재하지 않는 상품입니다."));
 	}
 }

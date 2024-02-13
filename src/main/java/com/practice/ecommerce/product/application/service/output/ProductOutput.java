@@ -13,4 +13,6 @@ public interface ProductOutput {
 	ProductDetailResponse getById(Long id);
 
 	List<ProductResponse> getProducts(ProductSearchRequest request);
+
+	Product getProduct(Long productId);
 }

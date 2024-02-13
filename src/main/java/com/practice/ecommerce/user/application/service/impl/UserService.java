@@ -93,11 +93,7 @@ public class UserService implements UserUsecase {
 
 	@Override
 	public UserDto getUserInfo(String loginId) {
-		return UserDto.from(userOutport.getUser(LoginId.create(loginId)).orElseThrow(() -> {
-				log.error("GET USER INFO ERROR loginId :{}",loginId);
-				return new IllegalArgumentException("GET USER INFO ERROR");
-			})
-		);
+		return UserDto.from(userOutport.getUser(LoginId.create(loginId)));
 	}
 
 
