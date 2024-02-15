@@ -7,6 +7,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import com.epages.restdocs.apispec.RestAssuredRestDocumentationWrapper;
 import com.practice.ecommerce.config.DocsDescription;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,15 +33,16 @@ public class DocsWrapper {
 					each.getName());
 				DocsDescription descriptionAnnotation = each.getAnnotation(DocsDescription.class);
 				if (descriptionAnnotation != null) {
-					if(!StringUtils.isBlank(descriptionAnnotation.value()))
+					if (!StringUtils.isBlank(descriptionAnnotation.value())) {
 						constraints.add(descriptionAnnotation.value());
+					}
 					if (descriptionAnnotation.nullable()) {
 						return fieldWithPath(each.getName()).description(
 							descriptionFormatting(constraints)).optional();
 					}
 				}
 				Class<?> type = each.getType();
-				if(type.isEnum()) {
+				if (type.isEnum()) {
 					Object[] enumConstants = type.getEnumConstants();
 					for (Object enumConstant : enumConstants) {
 						constraints.add(((Enum) enumConstant).name());
@@ -100,20 +103,89 @@ public class DocsWrapper {
 
 			Class<?> fieldType = field.getType();
 			Package packagePath = field.getType().getPackage();
-			if (packagePath == null || packagePath.getName().startsWith("java")) {
-				fieldName = prefix + field.getName();
+
+			String typeName = field.getType().getTypeName();
+			String packagePathName = null;
+			fieldName = prefix + field.getName();
+			if (packagePath != null) {
+				packagePathName = packagePath.getName();
+			}
+			if (typeName.contains("List")) {
+				packagePathName = getRootPackage(field);
+				fieldType = getRootFieldType(field);
+			}
+			if (packagePath == null || (packagePathName.startsWith("java"))) {
+				fieldName = "[]." + fieldName;
 				if (descriptionAnnotation != null) {
 					descriptionValue = descriptionAnnotation.value();
 				}
-				responseDescriptions.add(
-					fieldWithPath("[]."+fieldName).description(descriptionValue));
+				if (descriptionAnnotation != null) {
+					if (descriptionAnnotation.nullable()) {
+						responseDescriptions.add(
+							fieldWithPath(fieldName).optional().description(descriptionValue)
+						);
+					}else{
+						responseDescriptions.add(
+							fieldWithPath(fieldName).description(descriptionValue));
+					}
+				}else {
+					responseDescriptions.add(
+						fieldWithPath(fieldName).description(descriptionValue));
+				}
+
 			} else {
-				List<FieldDescriptor> fieldDescriptors = getFieldDescriptors(field.getName() + ".",
-					fieldType);
+				List<FieldDescriptor> fieldDescriptors = getListFieldDescriptors(
+					field.getName() + "[].", fieldType);
 				responseDescriptions.addAll(fieldDescriptors);
 			}
 		}
 		return responseDescriptions;
+	}
+
+	private Class<?> getRootFieldType(Field listField) {
+
+		// 필드가 리스트 타입인지 확인합니다.
+		if (List.class.isAssignableFrom(listField.getType())) {
+			// 리스트 타입의 제네릭 타입을 얻어옵니다.
+			Type genericType = listField.getGenericType();
+
+			if (genericType instanceof ParameterizedType) {
+				// 제네릭 타입이 매개변수화된 타입인 경우
+				ParameterizedType parameterizedType = (ParameterizedType) genericType;
+
+				// 제네릭 타입의 실제 타입 인자를 가져옵니다.
+				Type[] typeArguments = parameterizedType.getActualTypeArguments();
+
+				for (Type typeArgument : typeArguments) {
+					if (typeArgument instanceof Class) {
+						// 실제 타입 인자가 클래스인 경우
+						return (Class<?>) typeArgument;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private String getRootPackage(Field listField) {
+		if (List.class.isAssignableFrom(listField.getType())) {
+			// 리스트 타입의 제네릭 타입을 얻어옵니다.
+			Type genericType = listField.getGenericType();
+
+			if (genericType instanceof ParameterizedType) {
+				// 제네릭 타입이 매개변수화된 타입인 경우
+				ParameterizedType parameterizedType = (ParameterizedType) genericType;
+
+				// 제네릭 타입의 실제 타입 인자를 가져옵니다.
+				Type[] typeArguments = parameterizedType.getActualTypeArguments();
+
+				for (Type typeArgument : typeArguments) {
+					// 실제 타입 인자의 패키지 정보를 출력합니다.
+					return ((Class<?>) typeArgument).getPackage().getName();
+				}
+			}
+		}
+		return null;
 	}
 
 	protected String descriptionFormatting(List<String> constraints) {
@@ -276,9 +348,5 @@ public class DocsWrapper {
 				);
 			}
 		}
-
-
 	}
-
-
 }
