@@ -1,5 +1,5 @@
 # e-commerce
-[API DOCUMENT](https://seokjun7410.github.io/e-commerce/)
+[API DOCUMENT](https://seokjun7410.github.io/e-commerce/redoc-2402151414.html)
 # git 커밋 규칙 설정
 
  타입 이름      |내용|
