@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +43,8 @@ public class Product extends BaseEntity {
 	@JoinColumn(name = "store_owner_id")
 	private User storeOwner;
 
+	@OneToMany(mappedBy = "product")
+	private Set<Review> reviews = new HashSet<>();
 
 	public Product(User storeOwner,String name, String explanation, int price, int stock, Category category) {
 		this.storeOwner = storeOwner;
@@ -61,5 +66,9 @@ public class Product extends BaseEntity {
 			stock,
 			category
 		);
+	}
+
+	public void addReview(Review review) {
+		this.reviews.add(review);
 	}
 }

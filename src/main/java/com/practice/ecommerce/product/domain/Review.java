@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +27,11 @@ public class Review {
 	private Product product;
 
 	@ManyToOne
-	@JoinColumn(name = "subReview_id")
-	private Review subReview;
+	@JoinColumn(name = "parent_review_id")
+	private Review parentReview;
+
+	@OneToMany(mappedBy = "parentReview")
+	private Set<Review> subReview;
 
 	@ManyToOne
 	@JoinColumn(name = "member_id")
@@ -37,21 +42,29 @@ public class Review {
 	private Double star;
 
 
-	private Review(Product product, User user, Review subReview, String content, Double star) {
+	private Review(Product product, User user, Review parentReview, String content, Double star) {
 		this.product = product;
 		this.user = user;
-		this.subReview = subReview;
+		this.parentReview = parentReview;
 		this.content = content;
 		this.star = star;
 	}
 
 	public static Review createProductReview(Product product, User user, String content,
 		Double star) {
-		return new Review(product, user, null, content, star);
+		Review review = new Review(product, user, null, content, star);
+		product.addReview(review);
+		return review;
 	}
 
 	public static Review createSubReview(Review parentReview, User user, String content) {
-		return new Review(null, user, parentReview, content, null);
+		Review review = new Review(null, user, parentReview, content, null);
+		parentReview.addSubReview(review);
+		return review;
+	}
+
+	private void addSubReview(Review review) {
+		this.subReview.add(review);
 	}
 
 	public boolean isOwner(Long accountId) {
