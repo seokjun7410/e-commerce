@@ -6,17 +6,19 @@ import com.practice.ecommerce.product.assertcluster.AssertCluster;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.step.CategoryStep;
 import com.practice.ecommerce.product.infra.web.step.ProductStep;
+import com.practice.ecommerce.product.infra.web.step.ReviewStep;
 import com.practice.ecommerce.user.aop.LoginCheck.UserType;
 import com.practice.ecommerce.user.step.UserStep;
 import io.restassured.filter.session.SessionFilter;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 @DisplayName("API 테스트 - 상품 목록 조회")
 public class ProductSearchControllerApiTest extends ApiTest {
 
 	@Test
-	void 상품_목록_조회_API() {
+	public void 상품_목록_조회_API() {
 		SessionFilter storeOwnerSession = new SessionFilter();
 		SessionFilter adminSession = new SessionFilter();
 		UserStep.stoerOwner_signUp_API(spec);
@@ -28,6 +30,9 @@ public class ProductSearchControllerApiTest extends ApiTest {
 		//given
 		CategoryStep.register_API(spec,adminSession);
 		ProductStep.product_register_API(spec,storeOwnerSession);
+		ReviewStep.register_API(spec,storeOwnerSession);
+		ReviewStep.register_API(spec,storeOwnerSession);
+		ReviewStep.register_API(spec,storeOwnerSession);
 		ProductStep.product_register_API(spec,storeOwnerSession);
 		ProductStep.product_register_API(spec,storeOwnerSession);
 
@@ -37,6 +42,5 @@ public class ProductSearchControllerApiTest extends ApiTest {
 		AssertCluster.productResponse(productResponses);
 
 	}
-
 
 }

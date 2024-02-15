@@ -7,6 +7,7 @@ import com.practice.ecommerce.docsUtils.VirtualProduct;
 import com.practice.ecommerce.product.infra.web.dto.CategoryDTO.SortStatus;
 import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
+import com.practice.ecommerce.product.infra.web.dto.ReviewResponse;
 import java.util.List;
 
 public class AssertCluster {
@@ -25,6 +26,12 @@ public class AssertCluster {
 		assertThat(productResponses.get(0).name()).isEqualTo(VirtualProduct.getName());
 		assertThat(productResponses.get(0).categoryName()).isEqualTo(VirtualCategory.getName());
 		assertThat(productResponses.get(0).price()).isEqualTo(VirtualProduct.getPrice());
+
+		List<ReviewResponse> reviewResponse = productResponses.get(0).reviewResponse();
+		assertThat(reviewResponse.size()).isEqualTo(3);
+		assertThat(reviewResponse.get(0).content()).contains("옷이 너무 마음에 들어요");
+		assertThat(reviewResponse.get(0).star()).isEqualTo(4.5);
+		assertThat(reviewResponse.get(0).replyCount()).isEqualTo(3);
 	}
 
 	public static void productResponseSorting(List<ProductResponse> products, SortStatus sortStatus) {
