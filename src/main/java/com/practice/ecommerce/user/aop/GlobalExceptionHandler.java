@@ -1,5 +1,7 @@
 package com.practice.ecommerce.user.aop;
 
+import com.practice.ecommerce.common.excpetion.CustomException;
+import com.practice.ecommerce.common.response.DataResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,15 @@ import org.springframework.web.client.HttpStatusCodeException;
 @Slf4j
 public class GlobalExceptionHandler {
 
+	@ExceptionHandler(value = CustomException.class)
+	public DataResponse<Object> handleCustomException(CustomException e) {
+		log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
+		return DataResponse.errorResponse(e.getErrorCode());
+	}
+
 	@ExceptionHandler(HttpStatusCodeException.class)
 	public ResponseEntity<CustomErrorResponse> NullPointerException(HttpStatusCodeException ex) {
+		log.warn("로그인 되지 않은 사용자 접근");
 		CustomErrorResponse errorResponse = new CustomErrorResponse(ex.getMessage());
 		return ResponseEntity.status(ex.getStatusCode()).body(errorResponse);
 	}

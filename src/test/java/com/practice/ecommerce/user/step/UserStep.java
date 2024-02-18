@@ -9,7 +9,7 @@ import com.practice.ecommerce.user.docs.StoreOwnerSignUpDocs;
 import com.practice.ecommerce.user.docs.StoreOwnerUpdatePasswordDocs;
 import com.practice.ecommerce.user.docs.UserLoginDocs;
 import com.practice.ecommerce.user.infra.web.dto.StoreOwnerRegisterRequest;
-import com.practice.ecommerce.user.infra.web.dto.UserDto;
+import com.practice.ecommerce.user.infra.web.dto.UserResponse;
 import com.practice.ecommerce.user.infra.web.dto.UserLoginRequest;
 import io.restassured.RestAssured;
 import io.restassured.filter.session.SessionFilter;
@@ -94,7 +94,7 @@ public class UserStep {
 			.log().all().extract();
 	}
 
-	public static UserDto MyInfo_API(RequestSpecification spec, SessionFilter sessionFilter) {
+	public static UserResponse MyInfo_API(RequestSpecification spec, SessionFilter sessionFilter) {
 
 		StoreOwnerMyInfoDocs storeOwnerMyInfoDocs = new StoreOwnerMyInfoDocs();
 
@@ -108,7 +108,7 @@ public class UserStep {
 			.statusCode(HttpStatus.OK.value())
 			.log().all().extract();
 
-		return result.response().jsonPath().getObject("", UserDto.class);
+		return result.response().jsonPath().getObject("response", UserResponse.class);
 	}
 
 	public static void logout_API(RequestSpecification spec, SessionFilter sessionFilter) {
