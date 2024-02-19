@@ -6,7 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.ecommerce.JsonPathExpression;
 import com.practice.ecommerce.MockingCluster;
+import com.practice.ecommerce.common.excpetion.ErrorCode;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
 import com.practice.ecommerce.product.docs.ProductRegisterDocs;
@@ -45,7 +47,7 @@ public class ProductControllerTest extends MockingCluster {
 
 		ProductRegisterRequest request = docs.createRequest();
 		callApi(request)
-			.andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+			.andExpect(jsonPath(JsonPathExpression.response).value(ErrorCode.BAD_REQUEST_BODY));
 
 	}
 
@@ -55,7 +57,7 @@ public class ProductControllerTest extends MockingCluster {
 
 		ProductRegisterRequest request = docs.createRequest();
 		callApi(request)
-			.andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+			.andExpect(jsonPath(JsonPathExpression.response).value(ErrorCode.BAD_REQUEST_BODY));
 
 	}
 
@@ -64,7 +66,7 @@ public class ProductControllerTest extends MockingCluster {
 		VirtualProduct.setCategoryId(null);
 
 		ProductRegisterRequest request = docs.createRequest();
-		callApi(request).andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+		callApi(request).andExpect(jsonPath(JsonPathExpression.response).value(ErrorCode.BAD_REQUEST_BODY));
 
 	}
 
@@ -73,7 +75,7 @@ public class ProductControllerTest extends MockingCluster {
 		VirtualProduct.setStock(null);
 
 		ProductRegisterRequest request = docs.createRequest();
-		callApi(request).andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+		callApi(request).andExpect(jsonPath(JsonPathExpression.response).value(ErrorCode.BAD_REQUEST_BODY));
 
 	}
 
@@ -82,7 +84,7 @@ public class ProductControllerTest extends MockingCluster {
 		VirtualProduct.setPrice(null);
 
 		ProductRegisterRequest request = docs.createRequest();
-		callApi(request).andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+		callApi(request).andExpect(jsonPath(JsonPathExpression.response).value(ErrorCode.BAD_REQUEST_BODY));
 	}
 
 	private ResultActions callApi(ProductRegisterRequest request) throws Exception {
