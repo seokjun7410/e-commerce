@@ -65,7 +65,9 @@ public class UserService implements UserUsecase {
 
 	@Override
 	public UserResponse getUserInfo(String loginId) {
-		return UserResponse.from(userOutport.getUser(LoginId.create(loginId)));
+		User user = userOutport.findUser(LoginId.create(loginId))
+			.orElseThrow(()->new CustomException(ErrorCode.USER_IS_NOT_FOUND.appendId(loginId)));
+		return UserResponse.from(user);
 	}
 
 	private User getUserElseThrow(String loginId, String password){

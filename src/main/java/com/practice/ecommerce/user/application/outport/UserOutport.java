@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface UserOutport {
 
-	User getUser(LoginId id);
+	Optional<User> findUser(LoginId id);
 
 	void register(LoginId idName, Password password, Address address, String name,
 		UserType userType);
