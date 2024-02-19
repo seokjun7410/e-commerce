@@ -4,7 +4,7 @@ import static com.practice.ecommerce.product.domain.QProduct.product;
 import static com.practice.ecommerce.product.domain.QReview.review;
 import static com.querydsl.core.group.GroupBy.groupBy;
 
-import com.practice.ecommerce.product.infra.web.dto.CategoryDTO.SortStatus;
+import com.practice.ecommerce.product.infra.web.dto.SortStatus;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductSearchRequest;
 import com.practice.ecommerce.product.infra.web.dto.ReviewResponse;

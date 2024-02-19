@@ -40,8 +40,9 @@ public class User extends BaseEntity {
 	private Password pastPassword;
 	@Embedded
 	private Address address;
-
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private boolean isWithDraw;
 
 	@Enumerated(EnumType.STRING)

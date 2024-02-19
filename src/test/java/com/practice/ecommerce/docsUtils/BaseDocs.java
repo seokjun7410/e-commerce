@@ -17,7 +17,9 @@ public abstract class BaseDocs {
 	}
 
 	protected ResponseFieldsSnippet defaultExceptionResponseSpec() {
-		return responseFields(fieldWithPath("message").description("오류에 대한 메시지"));
+		return responseFields(fieldWithPath("responseMessage").description("에러 이름"))
+			.and(fieldWithPath("status").description("http status value"))
+			.and(fieldWithPath("response").description("오류에 대한 메시지"));
 	}
 
 }

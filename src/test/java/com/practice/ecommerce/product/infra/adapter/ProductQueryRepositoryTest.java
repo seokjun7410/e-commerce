@@ -9,7 +9,7 @@ import com.practice.ecommerce.docsUtils.VirtualProduct;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import com.practice.ecommerce.product.domain.Category;
 import com.practice.ecommerce.product.domain.Product;
-import com.practice.ecommerce.product.infra.web.dto.CategoryDTO.SortStatus;
+import com.practice.ecommerce.product.infra.web.dto.SortStatus;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductSearchRequest;
 import com.practice.ecommerce.user.domain.User;

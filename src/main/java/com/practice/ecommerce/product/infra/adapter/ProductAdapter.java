@@ -26,11 +26,7 @@ public class ProductAdapter implements ProductOutput {
 
 	@Override
 	public ProductDetailResponse getById(Long id) {
-		Product product = productRepository.findById(id)
-			.orElseThrow(() -> {
-				log.error("product 상세 조회 에러 존재하지 않는 productID:{}", id);
-				return new RuntimeException("product 조회 에러 productID");
-			});
+		Product product = getProduct(id);
 		return ProductDetailResponse.from(product);
 	}
 
@@ -42,6 +38,9 @@ public class ProductAdapter implements ProductOutput {
 	@Override
 	public Product getProduct(Long productId) {
 		return productRepository.findById(productId)
-			.orElseThrow(()->new EntityNotFoundException("존재하지 않는 상품입니다."));
+			.orElseThrow(()->{
+				log.error("product 상세 조회 에러 존재하지 않는 productID:{}", productId);
+				return new EntityNotFoundException("존재하지 않는 상품입니다.");
+			});
 	}
 }

@@ -7,9 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryOutput {
 
-	void register(String name);
+	void register(Category category);
 
-	void update(Long categoryId, CategoryRequest categoryRequest);
 
 	void deleteByCategoryId(Long categoryId);
 

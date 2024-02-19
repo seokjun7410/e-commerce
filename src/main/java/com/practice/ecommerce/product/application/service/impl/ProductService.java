@@ -1,5 +1,9 @@
 package com.practice.ecommerce.product.application.service.impl;
 
+import static com.practice.ecommerce.common.excpetion.ErrorCode.STORE_OWNER_IS_NOT_FOUND;
+import static com.practice.ecommerce.common.excpetion.ErrorCode.USER_IS_NOT_FOUND;
+
+import com.practice.ecommerce.common.excpetion.CustomException;
 import com.practice.ecommerce.product.application.service.ProductUsecase;
 import com.practice.ecommerce.product.application.service.output.CategoryOutput;
 import com.practice.ecommerce.product.application.service.output.ProductOutput;
@@ -15,6 +19,7 @@ import com.practice.ecommerce.product.infra.web.dto.ReviewUpdateRequest;
 import com.practice.ecommerce.user.application.outport.UserOutport;
 import com.practice.ecommerce.user.domain.User;
 import com.practice.ecommerce.user.domain.vo.LoginId;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +35,11 @@ public class ProductService implements ProductUsecase {
 	private final ReviewOutput reviewOutput;
 
 	@Transactional
-	public void register(ProductRegisterRequest request, String accountId) {
+	public void register(ProductRegisterRequest request, String loginId) {
 
 		Category category = categoryOutput.getById(request.categoryId());
-		User storeOwner = userOutport.getUser(LoginId.create(accountId));
+		User storeOwner = userOutport.findUser(LoginId.create(loginId))
+			.orElseThrow(()-> new CustomException(STORE_OWNER_IS_NOT_FOUND.appendId(loginId)));
 
 		Product product = Product.create(
 			storeOwner,
@@ -60,19 +66,19 @@ public class ProductService implements ProductUsecase {
 			case SUB_REVIEW -> registerSubReview(request,accountId);
 		}
 	}
-	private void registerProductReview(ReviewRequest request, String accountId) {
+	private void registerProductReview(ReviewRequest request, String loginId) {
 		Product product = productOutput.getProduct(request.parentId());
-		User user = userOutport.getUser(LoginId.create(accountId));
+		User user = userOutport.findUser(LoginId.create(loginId))
+			.orElseThrow(()-> new CustomException(USER_IS_NOT_FOUND.appendId(loginId)));
 
-		if(request.star() == null) {
-			throw new IllegalArgumentException("별점은 필수입니다.");
-		}
+		Double star = Optional.ofNullable(request.star())
+			.orElseThrow(() -> new IllegalArgumentException("별점은 필수 입니다."));
 
 		Review review = Review.createProductReview(
 			product,
 			user,
 			request.content(),
-			request.star()
+			star
 		);
 
 		reviewOutput.save(review);
@@ -80,7 +86,8 @@ public class ProductService implements ProductUsecase {
 
 	private void registerSubReview(ReviewRequest request, String accountId) {
 		Review parent = reviewOutput.getById(request.parentId());
-		User user = userOutport.getUser(LoginId.create(accountId));
+		User user = userOutport.findUser(LoginId.create(accountId))
+			.orElseThrow(()->new CustomException(USER_IS_NOT_FOUND));
 
 		Review review = Review.createSubReview(
 			parent,
@@ -93,19 +100,21 @@ public class ProductService implements ProductUsecase {
 
 	@Transactional
 	@Override
-	public void updateReview(String accountId, ReviewUpdateRequest request) {
+	public void updateReview(String loginId, ReviewUpdateRequest request) {
 		Review review = reviewOutput.getById(request.reviewId());
-		User user = userOutport.getUser(LoginId.create(accountId));
+		User user = userOutport.findUser(LoginId.create(loginId))
+			.orElseThrow(()->new CustomException(USER_IS_NOT_FOUND.appendId(loginId)));
 		review.isOwner(user.getId());
 		review.updateContent(request.content());
 	}
 
 	@Transactional
 	@Override
-	public void deleteReview(String accountId, ReviewDeleteRequest request) {
+	public void deleteReview(String loginId, ReviewDeleteRequest request) {
 		Long reviewId = request.reviewId();
 		Review review = reviewOutput.getById(reviewId);
-		User user = userOutport.getUser(LoginId.create(accountId));
+		User user = userOutport.findUser(LoginId.create(loginId))
+			.orElseThrow(()-> new CustomException(USER_IS_NOT_FOUND.appendId(loginId)));
 		if(!review.isOwner(user.getId())) {
 			throw new IllegalArgumentException("본인의 리뷰만 삭제할 수 있습니다.");
 		}

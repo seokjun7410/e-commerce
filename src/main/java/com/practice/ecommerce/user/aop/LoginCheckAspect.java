@@ -1,5 +1,7 @@
 package com.practice.ecommerce.user.aop;
 
+import com.practice.ecommerce.common.excpetion.CustomException;
+import com.practice.ecommerce.common.excpetion.ErrorCode;
 import com.practice.ecommerce.util.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -31,9 +33,7 @@ public class LoginCheckAspect {
 		}
 
 		if (id == null) {
-			log.error(proceedingJoinPoint.toString() + "로그인 되지 않은 사용자 접근");
-			throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인 되지 않은 사용자 입니다.") {
-			};
+			throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인 되지 않은 사용자 접근"){};
 		}
 
 		Object[] methodArgs = proceedingJoinPoint.getArgs();

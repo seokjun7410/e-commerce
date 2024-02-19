@@ -1,5 +1,6 @@
 package com.practice.ecommerce.product.infra.web.step;
 
+import com.practice.ecommerce.JsonPathExpression;
 import com.practice.ecommerce.product.docs.ProductGetDocs;
 import com.practice.ecommerce.product.docs.ProductRegisterDocs;
 import com.practice.ecommerce.product.docs.ProductSearchDocs;
@@ -47,7 +48,7 @@ public class ProductStep {
 			.statusCode(HttpStatus.OK.value())
 			.log().all().extract();
 
-		return result.response().jsonPath().getObject("", ProductDetailResponse.class);
+		return result.response().jsonPath().getObject(JsonPathExpression.response, ProductDetailResponse.class);
 	}
 
 	public static List<ProductResponse> product_search_API(RequestSpecification spec) {
@@ -62,6 +63,6 @@ public class ProductStep {
 			.statusCode(HttpStatus.OK.value())
 			.log().all().extract();
 
-		return result.response().jsonPath().getList("", ProductResponse.class);
+		return result.response().jsonPath().getList(JsonPathExpression.response, ProductResponse.class);
 	}
 }

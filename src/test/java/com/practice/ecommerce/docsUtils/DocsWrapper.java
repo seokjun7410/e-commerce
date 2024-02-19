@@ -62,14 +62,17 @@ public class DocsWrapper {
 	}
 
 	public ResponseFieldsSnippet buildListResponseFieldSnippet(Class<?> responseClass) {
-		List<FieldDescriptor> responseDescriptions = getListFieldDescriptors("", responseClass);
+		List<FieldDescriptor> responseDescriptions = getListFieldDescriptors("", responseClass,0);
 		return responseFields(responseDescriptions.toArray(FieldDescriptor[]::new));
 	}
 
 	private List<FieldDescriptor> getFieldDescriptors(String prefix, Class<?> responseClass) {
+
+
 		Field[] fields = responseClass.getDeclaredFields();
 		List<FieldDescriptor> responseDescriptions = new ArrayList<>();
-
+		responseDescriptions.add(fieldWithPath("status").description("커스텀 상태 코드"));
+		responseDescriptions.add(fieldWithPath("responseMessage").description("커스텀 상태 코드"));
 		for (Field field : fields) {
 			DocsDescription descriptionAnnotation = field.getAnnotation(DocsDescription.class);
 			String fieldName = "";
@@ -82,7 +85,7 @@ public class DocsWrapper {
 				if (descriptionAnnotation != null) {
 					descriptionValue = descriptionAnnotation.value();
 				}
-				responseDescriptions.add(fieldWithPath(fieldName).description(descriptionValue));
+				responseDescriptions.add(fieldWithPath("response."+fieldName).description(descriptionValue));
 			} else {
 				List<FieldDescriptor> fieldDescriptors = getFieldDescriptors(field.getName() + ".",
 					fieldType);
@@ -92,11 +95,14 @@ public class DocsWrapper {
 		return responseDescriptions;
 	}
 
-	private List<FieldDescriptor> getListFieldDescriptors(String prefix, Class<?> responseClass) {
+	private List<FieldDescriptor> getListFieldDescriptors(String prefix, Class<?> responseClass,int depth) {
 		Field[] fields = responseClass.getDeclaredFields();
 		List<FieldDescriptor> responseDescriptions = new ArrayList<>();
-
+		responseDescriptions.add(fieldWithPath("status").description("커스텀 상태 코드"));
+		responseDescriptions.add(fieldWithPath("responseMessage").description("응답 메시지"));
 		for (Field field : fields) {
+
+
 			DocsDescription descriptionAnnotation = field.getAnnotation(DocsDescription.class);
 			String fieldName = "";
 			String descriptionValue = "";
@@ -116,6 +122,7 @@ public class DocsWrapper {
 			}
 			if (packagePath == null || (packagePathName.startsWith("java"))) {
 				fieldName = "[]." + fieldName;
+				fieldName = "response" + fieldName;
 				if (descriptionAnnotation != null) {
 					descriptionValue = descriptionAnnotation.value();
 				}
@@ -135,7 +142,7 @@ public class DocsWrapper {
 
 			} else {
 				List<FieldDescriptor> fieldDescriptors = getListFieldDescriptors(
-					field.getName() + "[].", fieldType);
+					field.getName() + "[].", fieldType,depth+1);
 				responseDescriptions.addAll(fieldDescriptors);
 			}
 		}

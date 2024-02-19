@@ -2,7 +2,7 @@ package com.practice.ecommerce.user.docs;
 
 import com.practice.ecommerce.docsUtils.Docs;
 import com.practice.ecommerce.docsUtils.Identifier;
-import com.practice.ecommerce.user.infra.web.dto.UserDto;
+import com.practice.ecommerce.user.infra.web.dto.UserResponse;
 
 public class StoreOwnerMyInfoDocs extends Docs {
 
@@ -29,7 +29,7 @@ public class StoreOwnerMyInfoDocs extends Docs {
 
 	@Override
 	public Class<?> getResponseClass() {
-		return UserDto.class;
+		return UserResponse.class;
 	}
 
 	@Override

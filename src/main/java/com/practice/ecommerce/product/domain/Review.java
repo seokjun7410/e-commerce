@@ -1,6 +1,8 @@
 package com.practice.ecommerce.product.domain;
 
+import com.practice.ecommerce.BaseEntity;
 import com.practice.ecommerce.user.domain.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review {
+public class Review extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +39,10 @@ public class Review {
 	@JoinColumn(name = "member_id")
 	private User user;
 
+	@Column(nullable = false)
 	private String content;
 
+	@Column(nullable = true)
 	private Double star;
 
 

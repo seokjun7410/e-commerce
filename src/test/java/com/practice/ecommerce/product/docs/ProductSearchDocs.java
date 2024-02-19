@@ -4,7 +4,7 @@ import com.practice.ecommerce.docsUtils.Docs;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
-import com.practice.ecommerce.product.infra.web.dto.CategoryDTO.SortStatus;
+import com.practice.ecommerce.product.infra.web.dto.SortStatus;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductSearchRequest;
 

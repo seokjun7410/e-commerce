@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.practice.ecommerce.ApiTest;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import com.practice.ecommerce.user.infra.adapter.UserRepository;
-import com.practice.ecommerce.user.infra.web.dto.UserDto;
+import com.practice.ecommerce.user.infra.web.dto.UserResponse;
 import com.practice.ecommerce.user.step.UserStep;
 import io.restassured.filter.session.SessionFilter;
 import org.junit.jupiter.api.AfterEach;
@@ -43,15 +43,15 @@ class StoreOwnerApiTest extends ApiTest {
 		UserStep.stoerOwner_signUp_API(spec);
 		UserStep.login_API(spec, sessionFilter);
 
-		UserDto userDto = UserStep.MyInfo_API(spec, sessionFilter);
+		UserResponse userResponse = UserStep.MyInfo_API(spec, sessionFilter);
 
-		assertThat(userDto.id()).isNotNull();
-		assertThat(userDto.userId()).isEqualTo(VirtualStoreOwner.getLoginId());
-		assertThat(userDto.nickName()).isEqualTo(VirtualStoreOwner.getNickName());
-		assertThat(userDto.address().getDoro()).isEqualTo(VirtualStoreOwner.getAddress());
-		assertThat(userDto.createdTime()).isNotNull();
-		assertThat(userDto.updatedTime()).isNotNull();
-		assertThat(userDto.isWithDraw()).isFalse();
+		assertThat(userResponse.id()).isNotNull();
+		assertThat(userResponse.userId()).isEqualTo(VirtualStoreOwner.getLoginId());
+		assertThat(userResponse.nickName()).isEqualTo(VirtualStoreOwner.getNickName());
+		assertThat(userResponse.address().getDoro()).isEqualTo(VirtualStoreOwner.getAddress());
+		assertThat(userResponse.createdTime()).isNotNull();
+		assertThat(userResponse.updatedTime()).isNotNull();
+		assertThat(userResponse.isWithDraw()).isFalse();
 	}
 
 	@Test

@@ -1,5 +1,7 @@
 package com.practice.ecommerce.product.infra.web;
 
+import com.practice.ecommerce.common.response.DataResponse;
+import com.practice.ecommerce.common.response.Status;
 import com.practice.ecommerce.product.application.service.ProductSearchUsecase;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductSearchRequest;
@@ -27,7 +29,8 @@ public class ProductSearchController {
 		@RequestBody ProductSearchRequest request
 	) {
 		List<ProductResponse> products = productSearchUsecase.getProducts(request);
-		return ResponseEntity.status(HttpStatus.OK).body(products);
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(DataResponse.response(Status.SUCCESS,products));
 	}
 
 }

@@ -4,7 +4,7 @@ import com.practice.ecommerce.user.domain.User;
 import com.practice.ecommerce.user.domain.vo.Address;
 import java.time.LocalDateTime;
 
-public record UserDto(
+public record UserResponse(
 	Long id,
 	String userId,
 	String nickName,
@@ -14,8 +14,8 @@ public record UserDto(
 	LocalDateTime updatedTime
 ) {
 
-	public static UserDto from(User user) {
-		return new UserDto(user.getId(),
+	public static UserResponse from(User user) {
+		return new UserResponse(user.getId(),
 			user.getLoginId().getUserId(),
 			user.getName(),
 			user.getAddress(),

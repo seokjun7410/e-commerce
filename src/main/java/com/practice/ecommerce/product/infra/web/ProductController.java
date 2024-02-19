@@ -1,5 +1,7 @@
 package com.practice.ecommerce.product.infra.web;
 
+import com.practice.ecommerce.common.response.DataResponse;
+import com.practice.ecommerce.common.response.Status;
 import com.practice.ecommerce.product.application.service.ProductUsecase;
 import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductRegisterRequest;
@@ -42,6 +44,7 @@ public class ProductController {
 	) {
 		ProductDetailResponse response = productUsecase.getProductDetail(id);
 
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(DataResponse.response(Status.SUCCESS,response));
 	}
 }
