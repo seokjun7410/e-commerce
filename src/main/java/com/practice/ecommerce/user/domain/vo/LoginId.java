@@ -1,5 +1,6 @@
 package com.practice.ecommerce.user.domain.vo;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import lombok.ToString;
 @ToString
 public class LoginId {
 
+	@Column(nullable = false)
 	private String userId;
 
 	public static LoginId create(String loginId) {
