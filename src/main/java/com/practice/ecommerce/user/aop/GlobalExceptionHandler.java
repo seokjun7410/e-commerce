@@ -1,12 +1,15 @@
 package com.practice.ecommerce.user.aop;
 
 import com.practice.ecommerce.common.excpetion.CustomException;
+import com.practice.ecommerce.common.excpetion.ErrorCode;
 import com.practice.ecommerce.common.response.DataResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpStatusCodeException;
 
@@ -15,19 +18,21 @@ import org.springframework.web.client.HttpStatusCodeException;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value = CustomException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public DataResponse<Object> handleCustomException(CustomException e) {
 		log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
 		return DataResponse.errorResponse(e.getErrorCode());
 	}
 
 	@ExceptionHandler(HttpStatusCodeException.class)
-	public ResponseEntity<CustomErrorResponse> NullPointerException(HttpStatusCodeException ex) {
-		log.warn("로그인 되지 않은 사용자 접근");
-		CustomErrorResponse errorResponse = new CustomErrorResponse(ex.getMessage());
-		return ResponseEntity.status(ex.getStatusCode()).body(errorResponse);
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	public DataResponse<Object> NullPointerException(HttpStatusCodeException ex) {
+		log.warn("message {}",ex.getMessage());
+		return DataResponse.errorResponse(ErrorCode.DENIED_UNAUTHORIZED_USER);
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public Object processValidationError(MethodArgumentNotValidException ex,
 		HttpServletRequest request) {
 		String requestBody = getRequestPayload(ex);
@@ -35,9 +40,7 @@ public class GlobalExceptionHandler {
 
 		log.warn("path: {}, 잘못된 BODY : {}", requestUrl, requestBody);
 
-		CustomErrorResponse customErrorResponse = new CustomErrorResponse(
-			"잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요.");
-		return ResponseEntity.status(ex.getStatusCode()).body(customErrorResponse);
+		return DataResponse.errorResponse(ErrorCode.BAD_REQUEST_BODY);
 	}
 
 	// HttpServletRequest에서 Request Body를 추출하는 메서드

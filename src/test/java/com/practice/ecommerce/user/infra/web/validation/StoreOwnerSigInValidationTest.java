@@ -5,7 +5,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.ecommerce.JsonPathExpression;
 import com.practice.ecommerce.MockingCluster;
+import com.practice.ecommerce.common.excpetion.ErrorCode;
 import com.practice.ecommerce.docsUtils.Identifier;
 import com.practice.ecommerce.docsUtils.VirtualStoreOwner;
 import com.practice.ecommerce.user.aop.LoginCheck.UserType;
@@ -48,7 +50,7 @@ public class StoreOwnerSigInValidationTest extends MockingCluster {
 
 		UserLoginRequest request = UserLoginDocs.Request.create();
 		callController(request)
-			.andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+			.andExpect(jsonPath(JsonPathExpression.errorMessage).value(ErrorCode.BAD_REQUEST_BODY.getDetail()));
 	}
 
 	@Test
@@ -57,7 +59,7 @@ public class StoreOwnerSigInValidationTest extends MockingCluster {
 
 		UserLoginRequest request = UserLoginDocs.Request.create();
 		callController(request)
-			.andExpect(jsonPath("message").value("잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."));
+			.andExpect(jsonPath(JsonPathExpression.errorMessage).value(ErrorCode.BAD_REQUEST_BODY.getDetail()));
 
 	}
 

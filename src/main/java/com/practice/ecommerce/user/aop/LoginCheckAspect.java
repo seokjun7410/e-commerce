@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -31,9 +33,7 @@ public class LoginCheckAspect {
 		}
 
 		if (id == null) {
-			log.error(proceedingJoinPoint.toString() + "로그인 되지 않은 사용자 접근");
-			throw new CustomException(ErrorCode.DENIED_UNAUTHORIZED_USER) {
-			};
+			throw new HttpStatusCodeException(HttpStatus.UNAUTHORIZED, "로그인 되지 않은 사용자 접근"){};
 		}
 
 		Object[] methodArgs = proceedingJoinPoint.getArgs();

@@ -15,11 +15,11 @@ public enum ErrorCode {
 
     INVALID_LOGIN_INFO(BAD_REQUEST, "아이디 또는 비밀번호가 일치하지 않습니다."),
     DUPLICATE_ID_EXCEPTION(BAD_REQUEST, "중복되는 ID입니다. 다른 ID를 입력해주세요."),
-
+    BAD_REQUEST_BODY(BAD_REQUEST,"잘못된 Body 입니다. 문서를 참고하여 올바른 데이터를 첨부해주세요."),
 
 
     /* ------------------ 401 BAD_REQUEST : 권한 없음 ------------------ */
-    DENIED_UNAUTHORIZED_USER(UNAUTHORIZED, "로그인되지 않은 유저의 접근입니다.");
+    DENIED_UNAUTHORIZED_USER(UNAUTHORIZED, "로그인되지 않은 유저의 접근입니다."),;
 
     private final HttpStatus httpStatus;
     private final String detail;
