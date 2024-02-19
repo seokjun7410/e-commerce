@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.practice.ecommerce.docsUtils.VirtualCategory;
 import com.practice.ecommerce.docsUtils.VirtualProduct;
-import com.practice.ecommerce.product.infra.web.dto.CategoryDTO.SortStatus;
+import com.practice.ecommerce.product.infra.web.dto.SortStatus;
 import com.practice.ecommerce.product.infra.web.dto.ProductDetailResponse;
 import com.practice.ecommerce.product.infra.web.dto.ProductResponse;
 import com.practice.ecommerce.product.infra.web.dto.ReviewResponse;

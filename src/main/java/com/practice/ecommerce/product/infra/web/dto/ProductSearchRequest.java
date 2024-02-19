@@ -1,7 +1,6 @@
 package com.practice.ecommerce.product.infra.web.dto;
 
 import com.practice.ecommerce.config.DocsDescription;
-import com.practice.ecommerce.product.infra.web.dto.CategoryDTO.SortStatus;
 import jakarta.validation.constraints.NotNull;
 
 public record ProductSearchRequest(
