@@ -20,14 +20,14 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = CustomException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public DataResponse<Object> handleCustomException(CustomException e) {
-		log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
+		log.warn("[handleCustomException] : {}", e.getErrorCode());
 		return DataResponse.errorResponse(e.getErrorCode());
 	}
 
 	@ExceptionHandler(HttpStatusCodeException.class)
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	public DataResponse<Object> NullPointerException(HttpStatusCodeException ex) {
-		log.warn("message {}",ex.getMessage());
+	public DataResponse<Object> HttpStatusCodeException(HttpStatusCodeException ex) {
+		log.warn("[HttpStatusCodeException] message {}", ex.getMessage());
 		return DataResponse.errorResponse(ErrorCode.DENIED_UNAUTHORIZED_USER);
 	}
 
@@ -38,9 +38,18 @@ public class GlobalExceptionHandler {
 		String requestBody = getRequestPayload(ex);
 		String requestUrl = request.getRequestURI();
 
-		log.warn("path: {}, 잘못된 BODY : {}", requestUrl, requestBody);
+		log.warn("[MethodArgumentNotValidException] path: {}, 잘못된 BODY : {}", requestUrl,
+			requestBody);
 
 		return DataResponse.errorResponse(ErrorCode.BAD_REQUEST_BODY);
+	}
+
+	@ExceptionHandler(RuntimeException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public Object RuntimeException(RuntimeException ex, HttpServletRequest request) {
+		log.warn("[RuntimeException] path: {}, message : {}", request.getRequestURI(),
+			ex.getMessage());
+		return DataResponse.errorResponse(ErrorCode.BAD_REQUEST_BODY.appendDetail(ex.getMessage()));
 	}
 
 	// HttpServletRequest에서 Request Body를 추출하는 메서드
