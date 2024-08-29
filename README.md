@@ -38,10 +38,10 @@ RestDocs 방식의 코드작성을 DTO 클래스를 기반 리플렉션으로 �
 3. **jakarta.validation** 을 이용할경우 유효성 검증과 더불어 **API명세도 자동으로 반영**되도록 구성(swagger와 유사)
 4. **Enum타입의 필드**일경우 입력 가능한 값을 **자동으로 API문서에 노출**
 ---
-
+### [자동 생성된 API문서]
 <img width="505" alt="스크린샷 2024-08-29 오전 11 37 00" src="https://github.com/user-attachments/assets/ae30f248-ba7e-4749-8956-52b0f264b402">
 
-### [자동 생성된 API문서]
+
 
 
 
